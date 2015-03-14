@@ -8,7 +8,7 @@
 
 #import "MGGDemoView.h"
 
-#import "MGGMapView.h"
+#import <MGGStaticMapView/MGGStaticMapView.h>
 
 @interface MGGDemoView ()
 @property (strong, nonatomic) MGGMapView *staticMapView;

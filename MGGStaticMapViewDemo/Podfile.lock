@@ -1,0 +1,20 @@
+PODS:
+  - MGGStaticMapView (0.0.0):
+    - SimpleAL (~> 1.0.1)
+  - SimpleAL (1.0.1)
+
+DEPENDENCIES:
+  - MGGStaticMapView (from `../MGGStaticMapView/`)
+  - SimpleAL (from `~/SimpleAl`)
+
+EXTERNAL SOURCES:
+  MGGStaticMapView:
+    :path: ../MGGStaticMapView/
+  SimpleAL:
+    :path: ~/SimpleAl
+
+SPEC CHECKSUMS:
+  MGGStaticMapView: 3a9b5789a8718094bf1a9e67a3c9301dd336837d
+  SimpleAL: 793e51cbb7b8214b904aff5f9d0eaff553e5dadf
+
+COCOAPODS: 0.36.0

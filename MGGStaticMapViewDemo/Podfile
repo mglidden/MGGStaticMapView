@@ -1,0 +1,7 @@
+platform :ios, '7.0'
+workspace '../MGGStaticMapView'
+
+target 'MGGStaticMapViewDemo' do
+  pod 'SimpleAL', :path => '~/SimpleAl'
+  pod 'MGGStaticMapView', :path => '../MGGStaticMapView/'
+end
