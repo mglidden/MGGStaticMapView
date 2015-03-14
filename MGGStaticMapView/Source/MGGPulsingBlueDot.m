@@ -8,6 +8,8 @@
 
 #import "MGGPulsingBlueDot.h"
 
+#import <SimpleAL/SimpleAL.h>
+
 static const CGFloat kOuterDotDimension = 22.0;
 
 static const CGFloat kInnerBlueDotRelativeMinSize = 0.58;
@@ -24,12 +26,16 @@ static const CGFloat kInnerBlueDotScaleFactor = kInnerBlueDotRelativeMaxSize / k
 
 - (instancetype)initWithFrame:(CGRect)frame {
   if (self = [super initWithFrame:frame]) {
+    self.clipsToBounds = NO;
+    
     _middleWhiteDot = [[UIView alloc] init];
     _middleWhiteDot.backgroundColor = [UIColor whiteColor];
     _middleWhiteDot.layer.cornerRadius = kOuterDotDimension / 2.0;
     _middleWhiteDot.layer.shadowColor = [UIColor blackColor].CGColor;
     _middleWhiteDot.layer.shadowRadius = 10.0;
     _middleWhiteDot.layer.shadowOpacity = 0.2;
+    _middleWhiteDot.translatesAutoresizingMaskIntoConstraints = NO;
+    [self addSubview:_middleWhiteDot];
     
     _innerBlueDot = [[UIView alloc] init];
     _innerBlueDot.backgroundColor = [[self class] _smallColor];
@@ -45,10 +51,15 @@ static const CGFloat kInnerBlueDotScaleFactor = kInnerBlueDotRelativeMaxSize / k
 
 - (void)_installConstraints {
   [self addConstraints:@[
-                         [NSLayoutConstraint constraintWithItem:self.innerBlueDot attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kOuterDotDimension*kInnerBlueDotRelativeMinSize],
-                         [NSLayoutConstraint constraintWithItem:self.innerBlueDot attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.innerBlueDot attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0],
-                         [NSLayoutConstraint constraintWithItem:self.innerBlueDot attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0],
-                         [NSLayoutConstraint constraintWithItem:self.innerBlueDot attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0],
+                         [self.innerBlueDot.al_width equalToValue:kOuterDotDimension*kInnerBlueDotRelativeMinSize],
+                         [self.innerBlueDot.al_height equalToViewProperty:self.innerBlueDot.al_width],
+                         [self.innerBlueDot.al_centerX equalToViewProperty:self.al_centerX],
+                         [self.innerBlueDot.al_centerY equalToViewProperty:self.al_centerY],
+                         
+                         [self.middleWhiteDot.al_width equalToValue:kOuterDotDimension],
+                         [self.middleWhiteDot.al_height equalToViewProperty:self.middleWhiteDot.al_width],
+                         [self.middleWhiteDot.al_centerX equalToViewProperty:self.al_centerX],
+                         [self.middleWhiteDot.al_centerY equalToViewProperty:self.al_centerY],
                          ]];
   
 }
@@ -60,10 +71,6 @@ static const CGFloat kInnerBlueDotScaleFactor = kInnerBlueDotRelativeMaxSize / k
       self.innerBlueDot.backgroundColor = [[self class] _largeColor];
     }];
   } completion:nil];
-}
-
-- (CGSize)intrinsicContentSize {
-  return CGSizeMake(kOuterDotDimension, kOuterDotDimension);
 }
 
 + (UIColor *)_smallColor {
