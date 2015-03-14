@@ -10,6 +10,8 @@
 		BB92113E1AB4A6AD0089E094 /* MGGDemoView.m in Sources */ = {isa = PBXBuildFile; fileRef = BB92113D1AB4A6AD0089E094 /* MGGDemoView.m */; };
 		BB92113F1AB4A7580089E094 /* MGGStaticMapView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBE12ACC1AB4A2AE00581AD2 /* MGGStaticMapView.framework */; };
 		BB9211411AB4D16F0089E094 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB9211401AB4D16F0089E094 /* MapKit.framework */; };
+		BB9211441AB4D4F10089E094 /* MGGPulsingBlueDot.h in Headers */ = {isa = PBXBuildFile; fileRef = BB9211421AB4D4F10089E094 /* MGGPulsingBlueDot.h */; };
+		BB9211451AB4D4F10089E094 /* MGGPulsingBlueDot.m in Sources */ = {isa = PBXBuildFile; fileRef = BB9211431AB4D4F10089E094 /* MGGPulsingBlueDot.m */; };
 		BBE12AD21AB4A2AE00581AD2 /* MGGStaticMapView.h in Headers */ = {isa = PBXBuildFile; fileRef = BBE12AD11AB4A2AE00581AD2 /* MGGStaticMapView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BBE12AD81AB4A2AF00581AD2 /* MGGStaticMapView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBE12ACC1AB4A2AE00581AD2 /* MGGStaticMapView.framework */; };
 		BBE12ADF1AB4A2AF00581AD2 /* MGGStaticMapViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BBE12ADE1AB4A2AF00581AD2 /* MGGStaticMapViewTests.m */; };
@@ -45,6 +47,8 @@
 		BB92113C1AB4A6AD0089E094 /* MGGDemoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGGDemoView.h; sourceTree = "<group>"; };
 		BB92113D1AB4A6AD0089E094 /* MGGDemoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGGDemoView.m; sourceTree = "<group>"; };
 		BB9211401AB4D16F0089E094 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		BB9211421AB4D4F10089E094 /* MGGPulsingBlueDot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGGPulsingBlueDot.h; sourceTree = "<group>"; };
+		BB9211431AB4D4F10089E094 /* MGGPulsingBlueDot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGGPulsingBlueDot.m; sourceTree = "<group>"; };
 		BBE12ACC1AB4A2AE00581AD2 /* MGGStaticMapView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MGGStaticMapView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBE12AD01AB4A2AE00581AD2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BBE12AD11AB4A2AE00581AD2 /* MGGStaticMapView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MGGStaticMapView.h; sourceTree = "<group>"; };
@@ -133,6 +137,8 @@
 				BBE12ACF1AB4A2AE00581AD2 /* Supporting Files */,
 				BBE12AE81AB4A35200581AD2 /* MGGMapView.h */,
 				BBE12AE91AB4A35200581AD2 /* MGGMapView.m */,
+				BB9211421AB4D4F10089E094 /* MGGPulsingBlueDot.h */,
+				BB9211431AB4D4F10089E094 /* MGGPulsingBlueDot.m */,
 			);
 			path = MGGStaticMapView;
 			sourceTree = "<group>";
@@ -214,6 +220,7 @@
 			files = (
 				BBE12AEA1AB4A35200581AD2 /* MGGMapView.h in Headers */,
 				BBE12AD21AB4A2AE00581AD2 /* MGGStaticMapView.h in Headers */,
+				BB9211441AB4D4F10089E094 /* MGGPulsingBlueDot.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -380,6 +387,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BB9211451AB4D4F10089E094 /* MGGPulsingBlueDot.m in Sources */,
 				BBE12AEB1AB4A35200581AD2 /* MGGMapView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

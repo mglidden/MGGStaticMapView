@@ -28,6 +28,10 @@
     
     _liveMapView = [[MKMapView alloc] init];
     _liveMapView.translatesAutoresizingMaskIntoConstraints = NO;
+    _liveMapView.pitchEnabled = NO;
+    _liveMapView.zoomEnabled = NO;
+    _liveMapView.scrollEnabled = NO;
+    _liveMapView.rotateEnabled = NO;
     [self _setupMapView:_liveMapView];
     [self addSubview:_liveMapView];
     
@@ -45,7 +49,7 @@
 
 - (void)_installConstraints {
   NSDictionary *views = NSDictionaryOfVariableBindings(_staticMapView, _liveMapView);
-  NSDictionary *metrics = @{@"topMargin": @50, @"mapHeight": @200, @"mapMargin": @15};
+  NSDictionary *metrics = @{@"topMargin": @50, @"mapHeight": @75, @"mapMargin": @15};
   
   [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_staticMapView]|" options:0 metrics:metrics views:views]];
   [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_liveMapView]|" options:0 metrics:metrics views:views]];
