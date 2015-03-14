@@ -7,9 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BB92113E1AB4A6AD0089E094 /* MGGDemoView.m in Sources */ = {isa = PBXBuildFile; fileRef = BB92113D1AB4A6AD0089E094 /* MGGDemoView.m */; };
+		BB92113F1AB4A7580089E094 /* MGGStaticMapView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBE12ACC1AB4A2AE00581AD2 /* MGGStaticMapView.framework */; };
 		BBE12AD21AB4A2AE00581AD2 /* MGGStaticMapView.h in Headers */ = {isa = PBXBuildFile; fileRef = BBE12AD11AB4A2AE00581AD2 /* MGGStaticMapView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BBE12AD81AB4A2AF00581AD2 /* MGGStaticMapView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBE12ACC1AB4A2AE00581AD2 /* MGGStaticMapView.framework */; };
 		BBE12ADF1AB4A2AF00581AD2 /* MGGStaticMapViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BBE12ADE1AB4A2AF00581AD2 /* MGGStaticMapViewTests.m */; };
+		BBE12AEA1AB4A35200581AD2 /* MGGMapView.h in Headers */ = {isa = PBXBuildFile; fileRef = BBE12AE81AB4A35200581AD2 /* MGGMapView.h */; };
+		BBE12AEB1AB4A35200581AD2 /* MGGMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = BBE12AE91AB4A35200581AD2 /* MGGMapView.m */; };
+		BBE12AF51AB4A60200581AD2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BBE12AF41AB4A60200581AD2 /* main.m */; };
+		BBE12AF81AB4A60200581AD2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BBE12AF71AB4A60200581AD2 /* AppDelegate.m */; };
+		BBE12AFB1AB4A60200581AD2 /* MGGDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BBE12AFA1AB4A60200581AD2 /* MGGDemoViewController.m */; };
+		BBE12AFE1AB4A60200581AD2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BBE12AFC1AB4A60200581AD2 /* Main.storyboard */; };
+		BBE12B001AB4A60200581AD2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BBE12AFF1AB4A60200581AD2 /* Images.xcassets */; };
+		BBE12B031AB4A60200581AD2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBE12B011AB4A60200581AD2 /* LaunchScreen.xib */; };
+		BBE12B0F1AB4A60200581AD2 /* MGGStaticMapViewDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BBE12B0E1AB4A60200581AD2 /* MGGStaticMapViewDemoTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -20,15 +31,39 @@
 			remoteGlobalIDString = BBE12ACB1AB4A2AE00581AD2;
 			remoteInfo = MGGStaticMapView;
 		};
+		BBE12B091AB4A60200581AD2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BBE12AC31AB4A2AE00581AD2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BBE12AEF1AB4A60200581AD2;
+			remoteInfo = MGGStaticMapViewDemo;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BB92113C1AB4A6AD0089E094 /* MGGDemoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGGDemoView.h; sourceTree = "<group>"; };
+		BB92113D1AB4A6AD0089E094 /* MGGDemoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGGDemoView.m; sourceTree = "<group>"; };
 		BBE12ACC1AB4A2AE00581AD2 /* MGGStaticMapView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MGGStaticMapView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBE12AD01AB4A2AE00581AD2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BBE12AD11AB4A2AE00581AD2 /* MGGStaticMapView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MGGStaticMapView.h; sourceTree = "<group>"; };
 		BBE12AD71AB4A2AF00581AD2 /* MGGStaticMapViewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MGGStaticMapViewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBE12ADD1AB4A2AF00581AD2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BBE12ADE1AB4A2AF00581AD2 /* MGGStaticMapViewTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MGGStaticMapViewTests.m; sourceTree = "<group>"; };
+		BBE12AE81AB4A35200581AD2 /* MGGMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGGMapView.h; sourceTree = "<group>"; };
+		BBE12AE91AB4A35200581AD2 /* MGGMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGGMapView.m; sourceTree = "<group>"; };
+		BBE12AF01AB4A60200581AD2 /* MGGStaticMapViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MGGStaticMapViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BBE12AF31AB4A60200581AD2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BBE12AF41AB4A60200581AD2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		BBE12AF61AB4A60200581AD2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		BBE12AF71AB4A60200581AD2 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		BBE12AF91AB4A60200581AD2 /* MGGDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MGGDemoViewController.h; sourceTree = "<group>"; };
+		BBE12AFA1AB4A60200581AD2 /* MGGDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MGGDemoViewController.m; sourceTree = "<group>"; };
+		BBE12AFD1AB4A60200581AD2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		BBE12AFF1AB4A60200581AD2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		BBE12B021AB4A60200581AD2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		BBE12B081AB4A60200581AD2 /* MGGStaticMapViewDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MGGStaticMapViewDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BBE12B0D1AB4A60200581AD2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BBE12B0E1AB4A60200581AD2 /* MGGStaticMapViewDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MGGStaticMapViewDemoTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +82,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BBE12AED1AB4A60200581AD2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BB92113F1AB4A7580089E094 /* MGGStaticMapView.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BBE12B051AB4A60200581AD2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -55,6 +105,8 @@
 			children = (
 				BBE12ACE1AB4A2AE00581AD2 /* MGGStaticMapView */,
 				BBE12ADB1AB4A2AF00581AD2 /* MGGStaticMapViewTests */,
+				BBE12AF11AB4A60200581AD2 /* MGGStaticMapViewDemo */,
+				BBE12B0B1AB4A60200581AD2 /* MGGStaticMapViewDemoTests */,
 				BBE12ACD1AB4A2AE00581AD2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -64,6 +116,8 @@
 			children = (
 				BBE12ACC1AB4A2AE00581AD2 /* MGGStaticMapView.framework */,
 				BBE12AD71AB4A2AF00581AD2 /* MGGStaticMapViewTests.xctest */,
+				BBE12AF01AB4A60200581AD2 /* MGGStaticMapViewDemo.app */,
+				BBE12B081AB4A60200581AD2 /* MGGStaticMapViewDemoTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -73,6 +127,8 @@
 			children = (
 				BBE12AD11AB4A2AE00581AD2 /* MGGStaticMapView.h */,
 				BBE12ACF1AB4A2AE00581AD2 /* Supporting Files */,
+				BBE12AE81AB4A35200581AD2 /* MGGMapView.h */,
+				BBE12AE91AB4A35200581AD2 /* MGGMapView.m */,
 			);
 			path = MGGStaticMapView;
 			sourceTree = "<group>";
@@ -102,6 +158,49 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		BBE12AF11AB4A60200581AD2 /* MGGStaticMapViewDemo */ = {
+			isa = PBXGroup;
+			children = (
+				BBE12AF61AB4A60200581AD2 /* AppDelegate.h */,
+				BBE12AF71AB4A60200581AD2 /* AppDelegate.m */,
+				BBE12AF91AB4A60200581AD2 /* MGGDemoViewController.h */,
+				BBE12AFA1AB4A60200581AD2 /* MGGDemoViewController.m */,
+				BBE12AFC1AB4A60200581AD2 /* Main.storyboard */,
+				BBE12AFF1AB4A60200581AD2 /* Images.xcassets */,
+				BBE12B011AB4A60200581AD2 /* LaunchScreen.xib */,
+				BBE12AF21AB4A60200581AD2 /* Supporting Files */,
+				BB92113C1AB4A6AD0089E094 /* MGGDemoView.h */,
+				BB92113D1AB4A6AD0089E094 /* MGGDemoView.m */,
+			);
+			path = MGGStaticMapViewDemo;
+			sourceTree = "<group>";
+		};
+		BBE12AF21AB4A60200581AD2 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BBE12AF31AB4A60200581AD2 /* Info.plist */,
+				BBE12AF41AB4A60200581AD2 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		BBE12B0B1AB4A60200581AD2 /* MGGStaticMapViewDemoTests */ = {
+			isa = PBXGroup;
+			children = (
+				BBE12B0E1AB4A60200581AD2 /* MGGStaticMapViewDemoTests.m */,
+				BBE12B0C1AB4A60200581AD2 /* Supporting Files */,
+			);
+			path = MGGStaticMapViewDemoTests;
+			sourceTree = "<group>";
+		};
+		BBE12B0C1AB4A60200581AD2 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BBE12B0D1AB4A60200581AD2 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -109,6 +208,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BBE12AEA1AB4A35200581AD2 /* MGGMapView.h in Headers */,
 				BBE12AD21AB4A2AE00581AD2 /* MGGStaticMapView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -152,6 +252,41 @@
 			productReference = BBE12AD71AB4A2AF00581AD2 /* MGGStaticMapViewTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		BBE12AEF1AB4A60200581AD2 /* MGGStaticMapViewDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BBE12B101AB4A60200581AD2 /* Build configuration list for PBXNativeTarget "MGGStaticMapViewDemo" */;
+			buildPhases = (
+				BBE12AEC1AB4A60200581AD2 /* Sources */,
+				BBE12AED1AB4A60200581AD2 /* Frameworks */,
+				BBE12AEE1AB4A60200581AD2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MGGStaticMapViewDemo;
+			productName = MGGStaticMapViewDemo;
+			productReference = BBE12AF01AB4A60200581AD2 /* MGGStaticMapViewDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		BBE12B071AB4A60200581AD2 /* MGGStaticMapViewDemoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BBE12B131AB4A60200581AD2 /* Build configuration list for PBXNativeTarget "MGGStaticMapViewDemoTests" */;
+			buildPhases = (
+				BBE12B041AB4A60200581AD2 /* Sources */,
+				BBE12B051AB4A60200581AD2 /* Frameworks */,
+				BBE12B061AB4A60200581AD2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BBE12B0A1AB4A60200581AD2 /* PBXTargetDependency */,
+			);
+			name = MGGStaticMapViewDemoTests;
+			productName = MGGStaticMapViewDemoTests;
+			productReference = BBE12B081AB4A60200581AD2 /* MGGStaticMapViewDemoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -167,6 +302,13 @@
 					BBE12AD61AB4A2AF00581AD2 = {
 						CreatedOnToolsVersion = 6.1.1;
 					};
+					BBE12AEF1AB4A60200581AD2 = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+					BBE12B071AB4A60200581AD2 = {
+						CreatedOnToolsVersion = 6.1.1;
+						TestTargetID = BBE12AEF1AB4A60200581AD2;
+					};
 				};
 			};
 			buildConfigurationList = BBE12AC61AB4A2AE00581AD2 /* Build configuration list for PBXProject "MGGStaticMapView" */;
@@ -175,6 +317,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = BBE12AC21AB4A2AE00581AD2;
 			productRefGroup = BBE12ACD1AB4A2AE00581AD2 /* Products */;
@@ -183,6 +326,8 @@
 			targets = (
 				BBE12ACB1AB4A2AE00581AD2 /* MGGStaticMapView */,
 				BBE12AD61AB4A2AF00581AD2 /* MGGStaticMapViewTests */,
+				BBE12AEF1AB4A60200581AD2 /* MGGStaticMapViewDemo */,
+				BBE12B071AB4A60200581AD2 /* MGGStaticMapViewDemoTests */,
 			);
 		};
 /* End PBXProject section */
@@ -202,6 +347,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BBE12AEE1AB4A60200581AD2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BBE12AFE1AB4A60200581AD2 /* Main.storyboard in Resources */,
+				BBE12B031AB4A60200581AD2 /* LaunchScreen.xib in Resources */,
+				BBE12B001AB4A60200581AD2 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BBE12B061AB4A60200581AD2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -209,6 +371,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BBE12AEB1AB4A35200581AD2 /* MGGMapView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,6 +383,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BBE12AEC1AB4A60200581AD2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BBE12AFB1AB4A60200581AD2 /* MGGDemoViewController.m in Sources */,
+				BBE12AF81AB4A60200581AD2 /* AppDelegate.m in Sources */,
+				BBE12AF51AB4A60200581AD2 /* main.m in Sources */,
+				BB92113E1AB4A6AD0089E094 /* MGGDemoView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BBE12B041AB4A60200581AD2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BBE12B0F1AB4A60200581AD2 /* MGGStaticMapViewDemoTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -228,7 +410,31 @@
 			target = BBE12ACB1AB4A2AE00581AD2 /* MGGStaticMapView */;
 			targetProxy = BBE12AD91AB4A2AF00581AD2 /* PBXContainerItemProxy */;
 		};
+		BBE12B0A1AB4A60200581AD2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BBE12AEF1AB4A60200581AD2 /* MGGStaticMapViewDemo */;
+			targetProxy = BBE12B091AB4A60200581AD2 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		BBE12AFC1AB4A60200581AD2 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BBE12AFD1AB4A60200581AD2 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		BBE12B011AB4A60200581AD2 /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BBE12B021AB4A60200581AD2 /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		BBE12AE01AB4A2AF00581AD2 /* Debug */ = {
@@ -375,6 +581,64 @@
 			};
 			name = Release;
 		};
+		BBE12B111AB4A60200581AD2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = MGGStaticMapViewDemo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		BBE12B121AB4A60200581AD2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = MGGStaticMapViewDemo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		BBE12B141AB4A60200581AD2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = MGGStaticMapViewDemoTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MGGStaticMapViewDemo.app/MGGStaticMapViewDemo";
+			};
+			name = Debug;
+		};
+		BBE12B151AB4A60200581AD2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = MGGStaticMapViewDemoTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MGGStaticMapViewDemo.app/MGGStaticMapViewDemo";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -394,6 +658,7 @@
 				BBE12AE41AB4A2AF00581AD2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BBE12AE51AB4A2AF00581AD2 /* Build configuration list for PBXNativeTarget "MGGStaticMapViewTests" */ = {
 			isa = XCConfigurationList;
@@ -402,6 +667,25 @@
 				BBE12AE71AB4A2AF00581AD2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BBE12B101AB4A60200581AD2 /* Build configuration list for PBXNativeTarget "MGGStaticMapViewDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BBE12B111AB4A60200581AD2 /* Debug */,
+				BBE12B121AB4A60200581AD2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BBE12B131AB4A60200581AD2 /* Build configuration list for PBXNativeTarget "MGGStaticMapViewDemoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BBE12B141AB4A60200581AD2 /* Debug */,
+				BBE12B151AB4A60200581AD2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
