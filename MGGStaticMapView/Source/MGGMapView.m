@@ -30,6 +30,7 @@
 - (instancetype)initWithFrame:(CGRect)frame {
   if (self = [super initWithFrame:frame]) {
     self.backgroundColor = [UIColor colorWithRed:249.0/255.0 green:245.0/255.0 blue:237.0/255.0 alpha:1.0];
+    self.clipsToBounds = YES;
     
     _locationManager = [[CLLocationManager alloc] init];
     
@@ -39,6 +40,7 @@
     
     _blueDot = [[MGGPulsingBlueDot alloc] init];
     _blueDot.translatesAutoresizingMaskIntoConstraints = NO;
+    _blueDot.hidden = YES;
     [self addSubview:_blueDot];
     
     [self _installConstraints];
@@ -108,7 +110,7 @@
   CGPoint blueDotPoint = [self.snapshot pointForCoordinate:self.lastUserLocation.coordinate];
   self.leftDotConstraint.constant = blueDotPoint.x;
   self.topDotConstraint.constant = blueDotPoint.y;
-  
+  self.blueDot.hidden = NO;
 }
 
 #pragma mark Public Setters

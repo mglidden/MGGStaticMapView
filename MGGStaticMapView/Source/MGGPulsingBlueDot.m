@@ -16,6 +16,9 @@ static const CGFloat kInnerBlueDotRelativeMinSize = 0.58;
 static const CGFloat kInnerBlueDotRelativeMaxSize = 0.72;
 static const CGFloat kInnerBlueDotScaleFactor = kInnerBlueDotRelativeMaxSize / kInnerBlueDotRelativeMinSize;
 
+static const CGFloat kOuterBlueDotInitialDimension = kOuterDotDimension;
+static const CGFloat kOuterBlueDotScaleFactor = 5.5;
+
 @interface MGGPulsingBlueDot ()
 @property (strong, nonatomic) UIView *outerBlueDot;
 @property (strong, nonatomic) UIView *middleWhiteDot;
@@ -27,6 +30,13 @@ static const CGFloat kInnerBlueDotScaleFactor = kInnerBlueDotRelativeMaxSize / k
 - (instancetype)initWithFrame:(CGRect)frame {
   if (self = [super initWithFrame:frame]) {
     self.clipsToBounds = NO;
+    
+    _outerBlueDot = [[UIView alloc] init];
+    _outerBlueDot.backgroundColor = [[self class] _smallColor];
+    _outerBlueDot.alpha = 0.5;
+    _outerBlueDot.layer.cornerRadius = kOuterBlueDotInitialDimension / 2.0;
+    _outerBlueDot.translatesAutoresizingMaskIntoConstraints = NO;
+    [self addSubview:_outerBlueDot];
     
     _middleWhiteDot = [[UIView alloc] init];
     _middleWhiteDot.backgroundColor = [UIColor whiteColor];
@@ -60,8 +70,12 @@ static const CGFloat kInnerBlueDotScaleFactor = kInnerBlueDotRelativeMaxSize / k
                          [self.middleWhiteDot.al_height equalToViewProperty:self.middleWhiteDot.al_width],
                          [self.middleWhiteDot.al_centerX equalToViewProperty:self.al_centerX],
                          [self.middleWhiteDot.al_centerY equalToViewProperty:self.al_centerY],
+                         
+                         [self.outerBlueDot.al_width equalToValue:kOuterBlueDotInitialDimension],
+                         [self.outerBlueDot.al_height equalToViewProperty:self.outerBlueDot.al_width],
+                         [self.outerBlueDot.al_centerX equalToViewProperty:self.al_centerX],
+                         [self.outerBlueDot.al_centerY equalToViewProperty:self.al_centerY],
                          ]];
-  
 }
 
 - (void)_startAnimation {
@@ -69,6 +83,13 @@ static const CGFloat kInnerBlueDotScaleFactor = kInnerBlueDotRelativeMaxSize / k
     [UIView addKeyframeWithRelativeStartTime:0.0 relativeDuration:0.925 animations:^{
       self.innerBlueDot.layer.transform = CATransform3DScale(CATransform3DIdentity, kInnerBlueDotScaleFactor, kInnerBlueDotScaleFactor, 1.0);
       self.innerBlueDot.backgroundColor = [[self class] _largeColor];
+    }];
+  } completion:nil];
+  
+  [UIView animateKeyframesWithDuration:3 delay:0 options:UIViewKeyframeAnimationOptionRepeat|UIViewKeyframeAnimationOptionCalculationModePaced animations:^{
+    [UIView addKeyframeWithRelativeStartTime:0.0 relativeDuration:0.6 animations:^{
+      self.outerBlueDot.layer.transform = CATransform3DScale(CATransform3DIdentity, kOuterBlueDotScaleFactor, kOuterBlueDotScaleFactor, 1.0);
+      self.outerBlueDot.alpha = 0.0;
     }];
   } completion:nil];
 }
