@@ -10,7 +10,7 @@
 
 #import "MGGPulsingBlueDot.h"
 
-#import <MapKit/MKMapSnapshotter.h>
+#import <SimpleAL/SimpleAL.h>
 
 @interface MGGMapView () <CLLocationManagerDelegate>
 @property (strong, nonatomic) MKMapSnapshotter *snapshotter;
@@ -23,6 +23,9 @@
 @property (strong, nonatomic) MGGPulsingBlueDot *blueDot;
 @property (strong, nonatomic) NSLayoutConstraint *leftDotConstraint;
 @property (strong, nonatomic) NSLayoutConstraint *topDotConstraint;
+
+@property (strong, nonatomic) NSMutableArray *mutableAnnotations;
+@property (strong, nonatomic) NSMutableDictionary *annotationToAnnotationView;
 @end
 
 @implementation MGGMapView
@@ -33,6 +36,9 @@
     self.clipsToBounds = YES;
     
     _locationManager = [[CLLocationManager alloc] init];
+    _mutableAnnotations = [NSMutableArray array];
+    _annotationToAnnotationView = [NSMutableDictionary dictionary];
+    
     
     _mapImageView = [[UIImageView alloc] init];
     _mapImageView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -134,6 +140,68 @@
   } else {
     NSLog(@"Must ask for location authorization first.");
   }
+}
+
+#pragma mark Annotations
+
+- (void)addAnnotation:(id <MKAnnotation>)annotation {
+  [self.mutableAnnotations addObject:annotation];
+  [self _addAnnotations:@[annotation]];
+}
+
+- (void)addAnnotations:(NSArray *)annotations {
+  [self.mutableAnnotations addObjectsFromArray:annotations];
+  [self _addAnnotations:annotations];
+}
+
+- (void)removeAnnotation:(id <MKAnnotation>)annotation {
+  [self.mutableAnnotations removeObject:annotation];
+  [self _removeAnnotations:@[annotation]];
+}
+
+- (void)removeAnnotations:(NSArray *)annotations {
+  [self.mutableAnnotations removeObjectsInArray:annotations];
+  [self _removeAnnotations:annotations];
+}
+
+- (NSArray *)annotations {
+  return [self.mutableAnnotations copy];
+}
+
+- (void)_addAnnotations:(NSArray *)annotations {
+  for (id<MKAnnotation> annotation in annotations) {
+    id<MKMapViewDelegate> delegate = self.delegate;
+    MKAnnotationView *annotationView = nil;
+    if ([delegate respondsToSelector:@selector(mapView:viewForAnnotation:)]) {
+      annotationView = [delegate mapView:nil viewForAnnotation:annotation];
+    } else {
+      annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:nil];
+    }
+    self.annotationToAnnotationView[[[self class] _hashForAnnotation:annotation]] = annotationView;
+    
+    [self addSubview:annotationView];
+    
+    if (self.snapshot) {
+      CGPoint annotationPoint = [self.snapshot pointForCoordinate:[annotation coordinate]];
+      [self addConstraints:@[
+                             [annotationView.al_centerX equalToValue:annotationPoint.x],
+                             [annotationView.al_centerY equalToValue:annotationPoint.y],
+                             ]];
+    }
+  }
+}
+
+- (void)_removeAnnotations:(NSArray *)annotations {
+  for (id<MKAnnotation> annotation in annotations) {
+    MKAnnotationView *annotationView = self.annotationToAnnotationView[annotation];
+    [self.annotationToAnnotationView removeObjectForKey:[[self class] _hashForAnnotation:annotation]];
+    [annotationView removeFromSuperview];
+  }
+}
+
++ (NSNumber *)_hashForAnnotation:(id<MKAnnotation>)annotation {
+  CLLocationCoordinate2D coordinate = [annotation coordinate];
+  return @(@(coordinate.latitude).hash + @(coordinate.longitude).hash);
 }
 
 #pragma mark CLLocationManagerDelegate

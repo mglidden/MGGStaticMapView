@@ -16,6 +16,7 @@
 		BB9211A11AB4FA080089E094 /* MGGStaticMapViewDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BB9211A01AB4FA080089E094 /* MGGStaticMapViewDemoTests.m */; };
 		BB9211AE1AB4FA2D0089E094 /* MGGDemoView.m in Sources */ = {isa = PBXBuildFile; fileRef = BB9211AB1AB4FA2D0089E094 /* MGGDemoView.m */; };
 		BB9211AF1AB4FA2D0089E094 /* MGGDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BB9211AD1AB4FA2D0089E094 /* MGGDemoViewController.m */; };
+		BB92121E1AB5079D0089E094 /* MGGDemoAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = BB92121D1AB5079D0089E094 /* MGGDemoAnnotation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,8 @@
 		BB9211AB1AB4FA2D0089E094 /* MGGDemoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGGDemoView.m; sourceTree = "<group>"; };
 		BB9211AC1AB4FA2D0089E094 /* MGGDemoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGGDemoViewController.h; sourceTree = "<group>"; };
 		BB9211AD1AB4FA2D0089E094 /* MGGDemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGGDemoViewController.m; sourceTree = "<group>"; };
+		BB92121C1AB5079D0089E094 /* MGGDemoAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGGDemoAnnotation.h; sourceTree = "<group>"; };
+		BB92121D1AB5079D0089E094 /* MGGDemoAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGGDemoAnnotation.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +121,8 @@
 				BB9211AC1AB4FA2D0089E094 /* MGGDemoViewController.h */,
 				BB9211AD1AB4FA2D0089E094 /* MGGDemoViewController.m */,
 				BB9211841AB4FA080089E094 /* Supporting Files */,
+				BB92121C1AB5079D0089E094 /* MGGDemoAnnotation.h */,
+				BB92121D1AB5079D0089E094 /* MGGDemoAnnotation.m */,
 			);
 			path = MGGStaticMapViewDemo;
 			sourceTree = "<group>";
@@ -287,6 +292,7 @@
 				BB9211AF1AB4FA2D0089E094 /* MGGDemoViewController.m in Sources */,
 				BB9211871AB4FA080089E094 /* main.m in Sources */,
 				BB9211AE1AB4FA2D0089E094 /* MGGDemoView.m in Sources */,
+				BB92121E1AB5079D0089E094 /* MGGDemoAnnotation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

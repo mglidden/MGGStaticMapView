@@ -8,6 +8,8 @@
 
 #import "MGGDemoView.h"
 
+#import "MGGDemoAnnotation.h"
+
 #import <MGGStaticMapView/MGGStaticMapView.h>
 
 @interface MGGDemoView ()
@@ -45,6 +47,7 @@
   mapView.showsPointsOfInterest = NO;
   mapView.showsBuildings = YES;
   mapView.showsUserLocation = YES;
+  [mapView addAnnotations:[[self class] _annotations]];
 }
 
 - (void)_installConstraints {
@@ -55,6 +58,13 @@
   [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_liveMapView]|" options:0 metrics:metrics views:views]];
   
   [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-topMargin-[_staticMapView(mapHeight)]-mapMargin-[_liveMapView(mapHeight)]" options:0 metrics:metrics views:views]];
+}
+
++ (NSArray *)_annotations {
+  return @[
+           [[MGGDemoAnnotation alloc] initWithCoordinate:CLLocationCoordinate2DMake(37.78, -122.41)],
+           [[MGGDemoAnnotation alloc] initWithCoordinate:CLLocationCoordinate2DMake(3.78, -12.41)],
+           ];
 }
 
 @end

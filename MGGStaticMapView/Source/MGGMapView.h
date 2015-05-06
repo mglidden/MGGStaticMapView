@@ -21,4 +21,14 @@
 
 - (void)takeSnapshot;
 
+- (void)addAnnotation:(id <MKAnnotation>)annotation;
+- (void)addAnnotations:(NSArray *)annotations;
+
+- (void)removeAnnotation:(id <MKAnnotation>)annotation;
+- (void)removeAnnotations:(NSArray *)annotations;
+
+@property (nonatomic, readonly) NSArray *annotations;
+
+@property (weak, nonatomic) id<MKMapViewDelegate> delegate;
+
 @end
