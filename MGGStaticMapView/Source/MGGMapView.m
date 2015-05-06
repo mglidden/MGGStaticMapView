@@ -94,6 +94,7 @@
   _lastUserLocation = lastUserLocation;
   if (self.snapshot) {
     [self _updateBlueDotPosition];
+    [self _updateAnnotationPositions];
   }
 }
 
@@ -101,12 +102,23 @@
   _snapshot = snapshot;
   if (self.lastUserLocation) {
     [self _updateBlueDotPosition];
+    [self _updateAnnotationPositions];
   }
 }
 
 - (void)_updateBlueDotPosition {
   self.blueDot.center = [self.snapshot pointForCoordinate:self.lastUserLocation.coordinate];
   self.blueDot.hidden = NO;
+}
+
+- (void)_updateAnnotationPositions {
+  for (id<MKAnnotation> annotation in self.annotations) {
+    MKAnnotationView *annotationView = self.annotationToAnnotationView[[[self class] _hashForAnnotation:annotation]];
+    CGPoint annotationPoint = [self.snapshot pointForCoordinate:annotation.coordinate];
+    annotationPoint.x += annotationView.centerOffset.x;
+    annotationPoint.y += annotationView.centerOffset.y;
+    annotationView.center = annotationPoint;
+  }
 }
 
 #pragma mark Public Setters
@@ -165,7 +177,7 @@
     if ([delegate respondsToSelector:@selector(mapView:viewForAnnotation:)]) {
       annotationView = [delegate mapView:nil viewForAnnotation:annotation];
     } else {
-      annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:nil];
+      annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:nil];
     }
     self.annotationToAnnotationView[[[self class] _hashForAnnotation:annotation]] = annotationView;
     
@@ -197,7 +209,10 @@
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
-  self.lastUserLocation = locations.lastObject;
+  CLLocation *newLocation = locations.lastObject;
+  if (self.lastUserLocation.coordinate.latitude != newLocation.coordinate.latitude || self.lastUserLocation.coordinate.longitude != newLocation.coordinate.longitude || self.lastUserLocation.horizontalAccuracy != newLocation.horizontalAccuracy) {
+    self.lastUserLocation = locations.lastObject;
+  }
 }
 
 @end
