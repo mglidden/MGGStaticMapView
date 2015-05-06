@@ -13,6 +13,4 @@ Pod::Spec.new do |s|
 
   s.public_header_files = 'Source/**/*.h'
   s.source_files = 'Source/**/*.{h,m}'
-
-  s.dependency 'SimpleAL', '~> 1.0.1'
 end

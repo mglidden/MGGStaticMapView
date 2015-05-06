@@ -10,8 +10,6 @@
 
 #import "MGGPulsingBlueDot.h"
 
-#import <SimpleAL/SimpleAL.h>
-
 @interface MGGMapView () <CLLocationManagerDelegate>
 @property (strong, nonatomic) MKMapSnapshotter *snapshotter;
 @property (strong, nonatomic) CLLocationManager *locationManager;
@@ -21,8 +19,6 @@
 
 @property (strong, nonatomic) CLLocation *lastUserLocation;
 @property (strong, nonatomic) MGGPulsingBlueDot *blueDot;
-@property (strong, nonatomic) NSLayoutConstraint *leftDotConstraint;
-@property (strong, nonatomic) NSLayoutConstraint *topDotConstraint;
 
 @property (strong, nonatomic) NSMutableArray *mutableAnnotations;
 @property (strong, nonatomic) NSMutableDictionary *annotationToAnnotationView;
@@ -58,10 +54,6 @@
   NSDictionary *views = NSDictionaryOfVariableBindings(_mapImageView);
   [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_mapImageView]|" options:0 metrics:nil views:views]];
   [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_mapImageView]|" options:0 metrics:nil views:views]];
-  
-  self.leftDotConstraint = [NSLayoutConstraint constraintWithItem:self.blueDot attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1.0 constant:30.0];
-  self.topDotConstraint = [NSLayoutConstraint constraintWithItem:self.blueDot attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1.0 constant:30.0];
-  [self addConstraints:@[self.leftDotConstraint, self.topDotConstraint]];
 }
 
 - (void)layoutSubviews {
@@ -113,9 +105,7 @@
 }
 
 - (void)_updateBlueDotPosition {
-  CGPoint blueDotPoint = [self.snapshot pointForCoordinate:self.lastUserLocation.coordinate];
-  self.leftDotConstraint.constant = blueDotPoint.x;
-  self.topDotConstraint.constant = blueDotPoint.y;
+  self.blueDot.center = [self.snapshot pointForCoordinate:self.lastUserLocation.coordinate];
   self.blueDot.hidden = NO;
 }
 
@@ -182,11 +172,7 @@
     [self addSubview:annotationView];
     
     if (self.snapshot) {
-      CGPoint annotationPoint = [self.snapshot pointForCoordinate:[annotation coordinate]];
-      [self addConstraints:@[
-                             [annotationView.al_centerX equalToValue:annotationPoint.x],
-                             [annotationView.al_centerY equalToValue:annotationPoint.y],
-                             ]];
+      annotationView.center = [self.snapshot pointForCoordinate:[annotation coordinate]];
     }
   }
 }

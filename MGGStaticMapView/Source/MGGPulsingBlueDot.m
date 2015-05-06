@@ -8,13 +8,12 @@
 
 #import "MGGPulsingBlueDot.h"
 
-#import <SimpleAL/SimpleAL.h>
-
 static const CGFloat kOuterDotDimension = 22.0;
 
 static const CGFloat kInnerBlueDotRelativeMinSize = 0.58;
 static const CGFloat kInnerBlueDotRelativeMaxSize = 0.72;
 static const CGFloat kInnerBlueDotScaleFactor = kInnerBlueDotRelativeMaxSize / kInnerBlueDotRelativeMinSize;
+static const CGFloat kInnerBlueDotDimension = kOuterDotDimension * kInnerBlueDotRelativeMinSize;
 
 static const CGFloat kOuterBlueDotInitialDimension = kOuterDotDimension;
 static const CGFloat kOuterBlueDotScaleFactor = 5.5;
@@ -31,14 +30,14 @@ static const CGFloat kOuterBlueDotScaleFactor = 5.5;
   if (self = [super initWithFrame:frame]) {
     self.clipsToBounds = NO;
     
-    _outerBlueDot = [[UIView alloc] init];
+    _outerBlueDot = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kOuterBlueDotInitialDimension, kOuterBlueDotInitialDimension)];
     _outerBlueDot.backgroundColor = [[self class] _smallColor];
     _outerBlueDot.alpha = 0.5;
     _outerBlueDot.layer.cornerRadius = kOuterBlueDotInitialDimension / 2.0;
     _outerBlueDot.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_outerBlueDot];
     
-    _middleWhiteDot = [[UIView alloc] init];
+    _middleWhiteDot = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kOuterDotDimension, kOuterDotDimension)];
     _middleWhiteDot.backgroundColor = [UIColor whiteColor];
     _middleWhiteDot.layer.cornerRadius = kOuterDotDimension / 2.0;
     _middleWhiteDot.layer.shadowColor = [UIColor blackColor].CGColor;
@@ -47,35 +46,22 @@ static const CGFloat kOuterBlueDotScaleFactor = 5.5;
     _middleWhiteDot.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_middleWhiteDot];
     
-    _innerBlueDot = [[UIView alloc] init];
+    _innerBlueDot = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kInnerBlueDotDimension, kInnerBlueDotDimension)];
     _innerBlueDot.backgroundColor = [[self class] _smallColor];
     _innerBlueDot.translatesAutoresizingMaskIntoConstraints = NO;
     _innerBlueDot.layer.cornerRadius = kOuterDotDimension * kInnerBlueDotRelativeMinSize / 2.0;
     [self addSubview:_innerBlueDot];
     
-    [self _installConstraints];
     [self _startAnimation];
   }
   return self;
 }
 
-- (void)_installConstraints {
-  [self addConstraints:@[
-                         [self.innerBlueDot.al_width equalToValue:kOuterDotDimension*kInnerBlueDotRelativeMinSize],
-                         [self.innerBlueDot.al_height equalToViewProperty:self.innerBlueDot.al_width],
-                         [self.innerBlueDot.al_centerX equalToViewProperty:self.al_centerX],
-                         [self.innerBlueDot.al_centerY equalToViewProperty:self.al_centerY],
-                         
-                         [self.middleWhiteDot.al_width equalToValue:kOuterDotDimension],
-                         [self.middleWhiteDot.al_height equalToViewProperty:self.middleWhiteDot.al_width],
-                         [self.middleWhiteDot.al_centerX equalToViewProperty:self.al_centerX],
-                         [self.middleWhiteDot.al_centerY equalToViewProperty:self.al_centerY],
-                         
-                         [self.outerBlueDot.al_width equalToValue:kOuterBlueDotInitialDimension],
-                         [self.outerBlueDot.al_height equalToViewProperty:self.outerBlueDot.al_width],
-                         [self.outerBlueDot.al_centerX equalToViewProperty:self.al_centerX],
-                         [self.outerBlueDot.al_centerY equalToViewProperty:self.al_centerY],
-                         ]];
+- (void)layoutSubviews {
+  [super layoutSubviews];
+  self.innerBlueDot.center = self.center;
+  self.middleWhiteDot.center = self.center;
+  self.outerBlueDot.center = self.center;
 }
 
 - (void)_startAnimation {
