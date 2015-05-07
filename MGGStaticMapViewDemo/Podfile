@@ -2,5 +2,5 @@ platform :ios, '7.0'
 workspace '../MGGStaticMapView'
 
 target 'MGGStaticMapViewDemo' do
-  pod 'MGGStaticMapView', :path => '../MGGStaticMapView/'
+  pod 'MGGStaticMapView', :path => '../'
 end
