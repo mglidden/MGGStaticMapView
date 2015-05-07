@@ -35,7 +35,6 @@
     _mutableAnnotations = [NSMutableArray array];
     _annotationToAnnotationView = [NSMutableDictionary dictionary];
     
-    
     _mapImageView = [[UIImageView alloc] init];
     _mapImageView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_mapImageView];
@@ -118,6 +117,7 @@
     annotationPoint.x += annotationView.centerOffset.x;
     annotationPoint.y += annotationView.centerOffset.y;
     annotationView.center = annotationPoint;
+    annotationView.hidden = NO;
   }
 }
 
@@ -185,6 +185,8 @@
     
     if (self.snapshot) {
       annotationView.center = [self.snapshot pointForCoordinate:[annotation coordinate]];
+    } else {
+      annotationView.hidden = YES;
     }
   }
 }
