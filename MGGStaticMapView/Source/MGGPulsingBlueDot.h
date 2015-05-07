@@ -10,4 +10,6 @@
 
 @interface MGGPulsingBlueDot : UIView
 
+@property (assign, nonatomic, getter=isErrored) BOOL errored;
+
 @end

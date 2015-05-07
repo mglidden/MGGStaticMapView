@@ -209,10 +209,15 @@
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+  self.blueDot.errored = NO;
   CLLocation *newLocation = locations.lastObject;
   if (self.lastUserLocation.coordinate.latitude != newLocation.coordinate.latitude || self.lastUserLocation.coordinate.longitude != newLocation.coordinate.longitude || self.lastUserLocation.horizontalAccuracy != newLocation.horizontalAccuracy) {
     self.lastUserLocation = locations.lastObject;
   }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+  self.blueDot.errored = YES;
 }
 
 @end

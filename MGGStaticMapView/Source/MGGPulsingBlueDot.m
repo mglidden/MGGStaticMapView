@@ -32,7 +32,7 @@ static const CGFloat kOuterBlueDotScaleFactor = 5.5;
     self.clipsToBounds = NO;
     
     _outerBlueDot = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kOuterBlueDotInitialDimension, kOuterBlueDotInitialDimension)];
-    _outerBlueDot.backgroundColor = [[self class] _smallColor];
+    _outerBlueDot.backgroundColor = [UIColor colorWithRed:51.0/255.0 green:148.0/255.0 blue:255.0/255.0 alpha:1.0];
     _outerBlueDot.alpha = 0.5;
     _outerBlueDot.layer.cornerRadius = kOuterBlueDotInitialDimension / 2.0;
     [self addSubview:_outerBlueDot];
@@ -46,7 +46,7 @@ static const CGFloat kOuterBlueDotScaleFactor = 5.5;
     [self addSubview:_middleWhiteDot];
     
     _innerBlueDot = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kInnerBlueDotDimension, kInnerBlueDotDimension)];
-    _innerBlueDot.backgroundColor = [[self class] _smallColor];
+    _innerBlueDot.backgroundColor = [self _innerDotSmallColor];
     _innerBlueDot.layer.cornerRadius = kOuterDotDimension * kInnerBlueDotRelativeMinSize / 2.0;
     [self addSubview:_innerBlueDot];
     
@@ -55,12 +55,21 @@ static const CGFloat kOuterBlueDotScaleFactor = 5.5;
   return self;
 }
 
+- (void)setErrored:(BOOL)errored {
+  _errored = errored;
+  self.outerBlueDot.hidden = errored;
+}
+
+#pragma mark Layout
+
 - (void)layoutSubviews {
   [super layoutSubviews];
   self.innerBlueDot.center = CGPointZero;
   self.middleWhiteDot.center = CGPointZero;
   self.outerBlueDot.center = CGPointZero;
 }
+
+#pragma mark Animation
 
 - (void)_startAnimation {
   [self _animateInnerBlueDot];
@@ -71,11 +80,11 @@ static const CGFloat kOuterBlueDotScaleFactor = 5.5;
   MGGPulsingBlueDot __weak *weakSelf = self;
   [UIView animateWithDuration:kInnerBlueDotAnimationTime delay:0.25 options:UIViewAnimationOptionCurveEaseOut animations:^{
     self.innerBlueDot.layer.transform = CATransform3DScale(CATransform3DIdentity, kInnerBlueDotScaleFactor, kInnerBlueDotScaleFactor, 1.0);
-    self.innerBlueDot.backgroundColor = [[self class] _largeColor];
+    self.innerBlueDot.backgroundColor = [self _innerDotLargeColor];
   } completion:^(BOOL finished) {
     [UIView animateWithDuration:kInnerBlueDotAnimationTime delay:0.5 options:UIViewAnimationOptionCurveEaseIn animations:^{
       self.innerBlueDot.layer.transform = CATransform3DIdentity;
-      self.innerBlueDot.backgroundColor = [[self class] _smallColor];
+      self.innerBlueDot.backgroundColor = [self _innerDotSmallColor];
     } completion:^(BOOL finished) {
       MGGPulsingBlueDot *strongSelf = weakSelf;
       [strongSelf _animateInnerBlueDot];
@@ -96,12 +105,22 @@ static const CGFloat kOuterBlueDotScaleFactor = 5.5;
   }];
 }
 
-+ (UIColor *)_smallColor {
-  return [UIColor colorWithRed:51.0/255.0 green:148.0/255.0 blue:255.0/255.0 alpha:1.0];
+#pragma mark private helpers
+
+- (UIColor *)_innerDotSmallColor {
+  if (self.isErrored) {
+    return [UIColor colorWithWhite:193.0/255.0 alpha:1.0];
+  } else {
+    return [UIColor colorWithRed:51.0/255.0 green:148.0/255.0 blue:255.0/255.0 alpha:1.0];
+  }
 }
 
-+ (UIColor *)_largeColor {
-  return [UIColor colorWithRed:6.0/255.0 green:124.0/255.0 blue:255.0/255.0 alpha:1.0];
+- (UIColor *)_innerDotLargeColor {
+  if (self.isErrored) {
+    return [UIColor colorWithWhite:181.0/255.0 alpha:1.0];
+  } else {
+    return [UIColor colorWithRed:6.0/255.0 green:124.0/255.0 blue:255.0/255.0 alpha:1.0];
+  }
 }
 
 @end
