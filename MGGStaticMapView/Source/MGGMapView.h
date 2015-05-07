@@ -19,8 +19,6 @@
 @property (nonatomic) BOOL showsBuildings;
 @property (nonatomic) BOOL showsUserLocation;
 
-- (void)takeSnapshot;
-
 - (void)addAnnotation:(id <MKAnnotation>)annotation;
 - (void)addAnnotations:(NSArray *)annotations;
 

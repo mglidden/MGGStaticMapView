@@ -10,8 +10,13 @@
 
 #import "MGGPulsingBlueDot.h"
 
+BOOL equalRegions(MKCoordinateRegion regionOne, MKCoordinateRegion regionTwo) {
+  return regionOne.span.latitudeDelta == regionTwo.span.latitudeDelta && regionOne.span.longitudeDelta == regionTwo.span.longitudeDelta && regionOne.center.latitude == regionTwo.center.latitude && regionOne.center.longitude == regionTwo.center.longitude;
+}
+
 @interface MGGMapView () <CLLocationManagerDelegate>
 @property (strong, nonatomic) MKMapSnapshotter *snapshotter;
+@property (strong, nonatomic) MKMapSnapshotOptions *snapshotterOptions;
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) MKMapSnapshot *snapshot;
 
@@ -30,6 +35,9 @@
   if (self = [super initWithFrame:frame]) {
     self.backgroundColor = [UIColor colorWithRed:249.0/255.0 green:245.0/255.0 blue:237.0/255.0 alpha:1.0];
     self.clipsToBounds = YES;
+    
+    _showsPointsOfInterest = YES;
+    _showsBuildings = YES;
     
     _locationManager = [[CLLocationManager alloc] init];
     _mutableAnnotations = [NSMutableArray array];
@@ -58,31 +66,47 @@
 - (void)layoutSubviews {
   [super layoutSubviews];
   
-  if (!CGSizeEqualToSize(self.mapImageView.image.size, self.mapImageView.frame.size) &&
-      !CGSizeEqualToSize(self.mapImageView.frame.size, CGSizeZero)) {
-    [self takeSnapshot];
-  }
+  [self _takeSnapshotIfNeeded];
 }
 
-- (void)takeSnapshot {
+- (void)_takeSnapshotIfNeeded {
+  // If none of the settings have changed, we don't need to take another snapshot
+  if (CGSizeEqualToSize(self.frame.size, self.snapshotterOptions.size) &&
+      self.snapshotterOptions != nil &&
+      equalRegions(self.snapshotterOptions.region, self.region) &&
+      self.region.span.longitudeDelta > 0 &&
+      self.region.span.latitudeDelta > 0 &&
+      self.snapshotterOptions.showsPointsOfInterest == self.showsPointsOfInterest &&
+      self.snapshotterOptions.showsBuildings == self.showsBuildings &&
+      self.snapshotterOptions.mapType == self.mapType) {
+    return;
+  }
+  
+  // Make sure all of the data is correct before we take a snapshot
+  if (CGSizeEqualToSize(self.mapImageView.frame.size, CGSizeZero) ||
+      self.region.span.longitudeDelta <= 0.0 ||
+      self.region.span.latitudeDelta <= 0.0) {
+    return;
+  }
+  
   [self.snapshotter cancel];
   self.snapshot = nil;
   self.mapImageView.image = nil;
   self.mapImageView.alpha = 0.0;
   
-  MKMapSnapshotOptions *options = [[MKMapSnapshotOptions alloc] init];
-  options.mapType = self.mapType;
-  options.region = self.region;
-  options.size = self.frame.size;
-  options.showsPointsOfInterest = self.showsPointsOfInterest;
-  options.showsBuildings = self.showsBuildings;
+  self.snapshotterOptions = [[MKMapSnapshotOptions alloc] init];
+  self.snapshotterOptions.mapType = self.mapType;
+  self.snapshotterOptions.region = self.region;
+  self.snapshotterOptions.size = self.frame.size;
+  self.snapshotterOptions.showsPointsOfInterest = self.showsPointsOfInterest;
+  self.snapshotterOptions.showsBuildings = self.showsBuildings;
   
-  self.snapshotter = [[MKMapSnapshotter alloc] initWithOptions:options];
+  self.snapshotter = [[MKMapSnapshotter alloc] initWithOptions:self.snapshotterOptions];
   [self.snapshotter startWithQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0) completionHandler:^(MKMapSnapshot *snapshot, NSError *error) {
     dispatch_async(dispatch_get_main_queue(), ^{
       self.snapshot = snapshot;
       self.mapImageView.image = snapshot.image;
-      [UIView animateWithDuration:0.25 animations:^{
+      [UIView animateWithDuration:0.2 animations:^{
         self.mapImageView.alpha = 1.0;
       }];
     });
@@ -127,6 +151,13 @@
 
 #pragma mark Public Setters
 
+- (void)setRegion:(MKCoordinateRegion)region {
+  if (!equalRegions(region, _region)) {
+    _region = region;
+    [self _takeSnapshotIfNeeded];
+  }
+}
+
 - (void)setCenterCoordinate:(CLLocationCoordinate2D)centerCoordinate {
   _centerCoordinate = centerCoordinate;
   self.region = MKCoordinateRegionMake(centerCoordinate, self.region.span);
@@ -147,6 +178,21 @@
   } else {
     NSLog(@"Must ask for location authorization first.");
   }
+}
+
+- (void)setShowsPointsOfInterest:(BOOL)showsPointsOfInterest {
+  _showsPointsOfInterest = showsPointsOfInterest;
+  [self _takeSnapshotIfNeeded];
+}
+
+- (void)setShowsBuildings:(BOOL)showsBuildings {
+  _showsBuildings = showsBuildings;
+  [self _takeSnapshotIfNeeded];
+}
+
+- (void)setMapType:(MKMapType)mapType {
+  _mapType = mapType;
+  [self _takeSnapshotIfNeeded];
 }
 
 #pragma mark Annotations
