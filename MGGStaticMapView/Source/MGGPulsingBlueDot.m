@@ -10,10 +10,11 @@
 
 static const CGFloat kOuterDotDimension = 22.0;
 
-static const CGFloat kInnerBlueDotRelativeMinSize = 0.58;
+static const CGFloat kInnerBlueDotRelativeMinSize = 0.59;
 static const CGFloat kInnerBlueDotRelativeMaxSize = 0.72;
 static const CGFloat kInnerBlueDotScaleFactor = kInnerBlueDotRelativeMaxSize / kInnerBlueDotRelativeMinSize;
 static const CGFloat kInnerBlueDotDimension = kOuterDotDimension * kInnerBlueDotRelativeMinSize;
+static const CGFloat kInnerBlueDotAnimationTime = 1.2;
 
 static const CGFloat kOuterBlueDotInitialDimension = kOuterDotDimension;
 static const CGFloat kOuterBlueDotScaleFactor = 5.5;
@@ -34,7 +35,6 @@ static const CGFloat kOuterBlueDotScaleFactor = 5.5;
     _outerBlueDot.backgroundColor = [[self class] _smallColor];
     _outerBlueDot.alpha = 0.5;
     _outerBlueDot.layer.cornerRadius = kOuterBlueDotInitialDimension / 2.0;
-    _outerBlueDot.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_outerBlueDot];
     
     _middleWhiteDot = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kOuterDotDimension, kOuterDotDimension)];
@@ -43,12 +43,10 @@ static const CGFloat kOuterBlueDotScaleFactor = 5.5;
     _middleWhiteDot.layer.shadowColor = [UIColor blackColor].CGColor;
     _middleWhiteDot.layer.shadowRadius = 10.0;
     _middleWhiteDot.layer.shadowOpacity = 0.2;
-    _middleWhiteDot.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_middleWhiteDot];
     
     _innerBlueDot = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kInnerBlueDotDimension, kInnerBlueDotDimension)];
     _innerBlueDot.backgroundColor = [[self class] _smallColor];
-    _innerBlueDot.translatesAutoresizingMaskIntoConstraints = NO;
     _innerBlueDot.layer.cornerRadius = kOuterDotDimension * kInnerBlueDotRelativeMinSize / 2.0;
     [self addSubview:_innerBlueDot];
     
@@ -59,25 +57,43 @@ static const CGFloat kOuterBlueDotScaleFactor = 5.5;
 
 - (void)layoutSubviews {
   [super layoutSubviews];
-  self.innerBlueDot.center = self.center;
-  self.middleWhiteDot.center = self.center;
-  self.outerBlueDot.center = self.center;
+  self.innerBlueDot.center = CGPointZero;
+  self.middleWhiteDot.center = CGPointZero;
+  self.outerBlueDot.center = CGPointZero;
 }
 
 - (void)_startAnimation {
-  [UIView animateKeyframesWithDuration:1.5 delay:0.0 options:UIViewKeyframeAnimationOptionRepeat|UIViewKeyframeAnimationOptionAutoreverse animations:^{
-    [UIView addKeyframeWithRelativeStartTime:0.0 relativeDuration:0.925 animations:^{
-      self.innerBlueDot.layer.transform = CATransform3DScale(CATransform3DIdentity, kInnerBlueDotScaleFactor, kInnerBlueDotScaleFactor, 1.0);
-      self.innerBlueDot.backgroundColor = [[self class] _largeColor];
+  [self _animateInnerBlueDot];
+  [self _animateOuterBlueDot];
+}
+
+- (void)_animateInnerBlueDot {
+  MGGPulsingBlueDot __weak *weakSelf = self;
+  [UIView animateWithDuration:kInnerBlueDotAnimationTime delay:0.25 options:UIViewAnimationOptionCurveEaseOut animations:^{
+    self.innerBlueDot.layer.transform = CATransform3DScale(CATransform3DIdentity, kInnerBlueDotScaleFactor, kInnerBlueDotScaleFactor, 1.0);
+    self.innerBlueDot.backgroundColor = [[self class] _largeColor];
+  } completion:^(BOOL finished) {
+    [UIView animateWithDuration:kInnerBlueDotAnimationTime delay:0.5 options:UIViewAnimationOptionCurveEaseIn animations:^{
+      self.innerBlueDot.layer.transform = CATransform3DIdentity;
+      self.innerBlueDot.backgroundColor = [[self class] _smallColor];
+    } completion:^(BOOL finished) {
+      MGGPulsingBlueDot *strongSelf = weakSelf;
+      [strongSelf _animateInnerBlueDot];
     }];
-  } completion:nil];
-  
-  [UIView animateKeyframesWithDuration:3 delay:0 options:UIViewKeyframeAnimationOptionRepeat|UIViewKeyframeAnimationOptionCalculationModePaced animations:^{
-    [UIView addKeyframeWithRelativeStartTime:0.0 relativeDuration:0.6 animations:^{
-      self.outerBlueDot.layer.transform = CATransform3DScale(CATransform3DIdentity, kOuterBlueDotScaleFactor, kOuterBlueDotScaleFactor, 1.0);
-      self.outerBlueDot.alpha = 0.0;
-    }];
-  } completion:nil];
+  }];
+}
+
+- (void)_animateOuterBlueDot {
+  MGGPulsingBlueDot __weak *weakSelf = self;
+  [UIView animateWithDuration:1.8 delay:1.2 options:UIViewAnimationOptionCurveEaseOut animations:^{
+    self.outerBlueDot.layer.transform = CATransform3DScale(CATransform3DIdentity, kOuterBlueDotScaleFactor, kOuterBlueDotScaleFactor, 1.0);
+    self.outerBlueDot.alpha = 0.0;
+  } completion:^(BOOL finished) {
+    self.outerBlueDot.layer.transform = CATransform3DIdentity;
+    self.outerBlueDot.alpha = 0.5;
+    MGGPulsingBlueDot *strongSelf = weakSelf;
+    [strongSelf _animateOuterBlueDot];
+  }];
 }
 
 + (UIColor *)_smallColor {
