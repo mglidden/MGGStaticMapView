@@ -101,8 +101,8 @@
   _snapshot = snapshot;
   if (self.lastUserLocation) {
     [self _updateBlueDotPosition];
-    [self _updateAnnotationPositions];
   }
+  [self _updateAnnotationPositions];
 }
 
 - (void)_updateBlueDotPosition {
@@ -113,11 +113,15 @@
 - (void)_updateAnnotationPositions {
   for (id<MKAnnotation> annotation in self.annotations) {
     MKAnnotationView *annotationView = self.annotationToAnnotationView[[[self class] _hashForAnnotation:annotation]];
-    CGPoint annotationPoint = [self.snapshot pointForCoordinate:annotation.coordinate];
-    annotationPoint.x += annotationView.centerOffset.x;
-    annotationPoint.y += annotationView.centerOffset.y;
-    annotationView.center = annotationPoint;
-    annotationView.hidden = NO;
+    if (self.snapshot) {
+      CGPoint annotationPoint = [self.snapshot pointForCoordinate:annotation.coordinate];
+      annotationPoint.x += annotationView.centerOffset.x;
+      annotationPoint.y += annotationView.centerOffset.y;
+      annotationView.center = annotationPoint;
+      annotationView.hidden = NO;
+    } else {
+      annotationView.hidden = YES;
+    }
   }
 }
 
@@ -132,6 +136,7 @@
   _showsUserLocation = showsUserLocation;
   
   if (!_showsUserLocation) {
+    self.blueDot.hidden = YES;
     return;
   }
   
@@ -182,13 +187,8 @@
     self.annotationToAnnotationView[[[self class] _hashForAnnotation:annotation]] = annotationView;
     
     [self addSubview:annotationView];
-    
-    if (self.snapshot) {
-      annotationView.center = [self.snapshot pointForCoordinate:[annotation coordinate]];
-    } else {
-      annotationView.hidden = YES;
-    }
   }
+  [self _updateAnnotationPositions];
 }
 
 - (void)_removeAnnotations:(NSArray *)annotations {
