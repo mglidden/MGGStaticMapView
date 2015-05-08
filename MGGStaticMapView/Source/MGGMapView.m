@@ -101,12 +101,14 @@ BOOL equalRegions(MKCoordinateRegion regionOne, MKCoordinateRegion regionTwo) {
   self.snapshotterOptions.showsBuildings = self.showsBuildings;
   
   self.snapshotter = [[MKMapSnapshotter alloc] initWithOptions:self.snapshotterOptions];
+  MGGMapView *__weak weakSelf = self;
   [self.snapshotter startWithQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0) completionHandler:^(MKMapSnapshot *snapshot, NSError *error) {
     dispatch_async(dispatch_get_main_queue(), ^{
-      self.snapshot = snapshot;
-      self.mapImageView.image = snapshot.image;
+      MGGMapView *strongSelf = weakSelf;
+      strongSelf.snapshot = snapshot;
+      strongSelf.mapImageView.image = snapshot.image;
       [UIView animateWithDuration:0.2 animations:^{
-        self.mapImageView.alpha = 1.0;
+        strongSelf.mapImageView.alpha = 1.0;
       }];
     });
   }];

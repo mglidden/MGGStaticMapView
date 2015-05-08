@@ -33,7 +33,7 @@ static const CGFloat kOuterBlueDotInitialAlpha = 0.5;
   if (self = [super initWithFrame:frame]) {
     self.clipsToBounds = NO;
     
-    _accuracyDot = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kOuterDotDimension, kOuterDotDimension)];
+    _accuracyDot = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kInnerBlueDotDimension, kInnerBlueDotDimension)];
     _accuracyDot.backgroundColor = [UIColor colorWithRed:51.0/255.0 green:148.0/255.0 blue:255.0/255.0 alpha:1.0];
     _accuracyDot.alpha = 0.2;
     _accuracyDot.layer.cornerRadius = _accuracyDot.frame.size.height / 2.0;
@@ -71,6 +71,7 @@ static const CGFloat kOuterBlueDotInitialAlpha = 0.5;
 }
 
 - (void)setAccuracyCircleRadius:(CGFloat)accuracyCircleRadius {
+  // todo: this jumps on the first assignment
   _accuracyCircleRadius = accuracyCircleRadius;
   [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionLayoutSubviews animations:^{
     self.accuracyDot.layer.transform = CATransform3DIdentity;
@@ -97,15 +98,16 @@ static const CGFloat kOuterBlueDotInitialAlpha = 0.5;
 }
 
 - (void)_animateInnerBlueDot {
-  // todo: fix the memory cycle in here and move it to a keyframe animation
-  MGGPulsingBlueDot __weak *weakSelf = self;
+  // I would love to use a keyframe animation here, but keyframes don't support ease in and ease out (specifically, I would need it to change from ease-out to ease-in halfway through).
+  MGGPulsingBlueDot *__weak weakSelf = self;
   [UIView animateWithDuration:kInnerBlueDotAnimationTime delay:0.25 options:UIViewAnimationOptionCurveEaseOut animations:^{
     self.innerBlueDot.layer.transform = CATransform3DScale(CATransform3DIdentity, kInnerBlueDotScaleFactor, kInnerBlueDotScaleFactor, 1.0);
     self.innerBlueDot.backgroundColor = [self _innerDotLargeColor];
   } completion:^(BOOL finished) {
     [UIView animateWithDuration:kInnerBlueDotAnimationTime delay:0.5 options:UIViewAnimationOptionCurveEaseIn animations:^{
-      self.innerBlueDot.layer.transform = CATransform3DIdentity;
-      self.innerBlueDot.backgroundColor = [self _innerDotSmallColor];
+      MGGPulsingBlueDot *strongSelf = weakSelf;
+      strongSelf.innerBlueDot.layer.transform = CATransform3DIdentity;
+      strongSelf.innerBlueDot.backgroundColor = [strongSelf _innerDotSmallColor];
     } completion:^(BOOL finished) {
       MGGPulsingBlueDot *strongSelf = weakSelf;
       [strongSelf _animateInnerBlueDot];
@@ -114,14 +116,14 @@ static const CGFloat kOuterBlueDotInitialAlpha = 0.5;
 }
 
 - (void)_animateOuterBlueDot {
-  MGGPulsingBlueDot __weak *weakSelf = self;
+  MGGPulsingBlueDot *__weak weakSelf = self;
   [UIView animateWithDuration:1.8 delay:1.2 options:UIViewAnimationOptionCurveEaseOut animations:^{
     self.outerBlueDot.layer.transform = CATransform3DScale(CATransform3DIdentity, kOuterBlueDotScaleFactor, kOuterBlueDotScaleFactor, 1.0);
     self.outerBlueDot.alpha = 0.0;
   } completion:^(BOOL finished) {
-    self.outerBlueDot.layer.transform = CATransform3DIdentity;
-    self.outerBlueDot.alpha = kOuterBlueDotInitialAlpha;
     MGGPulsingBlueDot *strongSelf = weakSelf;
+    weakSelf.outerBlueDot.layer.transform = CATransform3DIdentity;
+    weakSelf.outerBlueDot.alpha = kOuterBlueDotInitialAlpha;
     [strongSelf _animateOuterBlueDot];
   }];
 }
