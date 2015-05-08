@@ -72,9 +72,11 @@ static const CGFloat kOuterBlueDotInitialAlpha = 0.5;
 
 - (void)setAccuracyCircleRadius:(CGFloat)accuracyCircleRadius {
   _accuracyCircleRadius = accuracyCircleRadius;
-  self.accuracyDot.frame = CGRectMake(0, 0, accuracyCircleRadius * 2, accuracyCircleRadius * 2);
-  self.accuracyDot.center = CGPointZero;
-  self.accuracyDot.layer.cornerRadius = accuracyCircleRadius;
+  [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionLayoutSubviews animations:^{
+    self.accuracyDot.layer.transform = CATransform3DIdentity;
+    CGFloat scale = accuracyCircleRadius / self.accuracyDot.frame.size.height;
+    self.accuracyDot.layer.transform = CATransform3DScale(CATransform3DIdentity, scale, scale, 1.0);
+  } completion:nil];
 }
 
 #pragma mark Layout
