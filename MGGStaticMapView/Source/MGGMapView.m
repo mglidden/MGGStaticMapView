@@ -116,7 +116,7 @@ BOOL equalRegions(MKCoordinateRegion regionOne, MKCoordinateRegion regionTwo) {
 - (void)setLastUserLocation:(CLLocation *)lastUserLocation {
   _lastUserLocation = lastUserLocation;
   if (self.snapshot) {
-    [self _updateBlueDotPosition];
+    [self _updateBlueDot];
     [self _updateAnnotationPositions];
   }
 }
@@ -124,14 +124,23 @@ BOOL equalRegions(MKCoordinateRegion regionOne, MKCoordinateRegion regionTwo) {
 - (void)setSnapshot:(MKMapSnapshot *)snapshot {
   _snapshot = snapshot;
   if (self.lastUserLocation) {
-    [self _updateBlueDotPosition];
+    [self _updateBlueDot];
   }
   [self _updateAnnotationPositions];
 }
 
-- (void)_updateBlueDotPosition {
-  self.blueDot.center = [self.snapshot pointForCoordinate:self.lastUserLocation.coordinate];
+- (void)_updateBlueDot {
   self.blueDot.hidden = NO;
+  CGPoint userLocationPoint = [self.snapshot pointForCoordinate:self.lastUserLocation.coordinate];
+  self.blueDot.center = userLocationPoint;
+  
+  CLLocation *testLocation = [[CLLocation alloc] initWithLatitude:self.lastUserLocation.coordinate.latitude + 0.001 longitude:self.lastUserLocation.coordinate.longitude];
+  CLLocationDistance distanceInMeters = fabs([testLocation distanceFromLocation:self.lastUserLocation]);
+  CGFloat distanceInPoints = fabs(userLocationPoint.y - [self.snapshot pointForCoordinate:testLocation.coordinate].y);
+  CGFloat pointsPerMeter = distanceInPoints / distanceInMeters;
+  CGFloat horizontalAccuracyPoints = pointsPerMeter * self.lastUserLocation.horizontalAccuracy;
+  horizontalAccuracyPoints *= 300;
+  self.blueDot.accuracyCircleRadius = horizontalAccuracyPoints;
 }
 
 - (void)_updateAnnotationPositions {
@@ -154,6 +163,7 @@ BOOL equalRegions(MKCoordinateRegion regionOne, MKCoordinateRegion regionTwo) {
 - (void)setRegion:(MKCoordinateRegion)region {
   if (!equalRegions(region, _region)) {
     _region = region;
+    _region.span.latitudeDelta *= 3;
     [self _takeSnapshotIfNeeded];
   }
 }
@@ -253,7 +263,9 @@ BOOL equalRegions(MKCoordinateRegion regionOne, MKCoordinateRegion regionTwo) {
 #pragma mark CLLocationManagerDelegate
 
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
-  // todo start getting location here
+  if (status == kCLAuthorizationStatusAuthorized) {
+    [self.locationManager startUpdatingLocation];
+  }
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {

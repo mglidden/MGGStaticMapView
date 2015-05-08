@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+#import <MapKit/MapKit.h>
+
 @interface MGGPulsingBlueDot : UIView
 
 @property (assign, nonatomic, getter=isErrored) BOOL errored;
+@property (assign, nonatomic) CGFloat accuracyCircleRadius;
 
 @end

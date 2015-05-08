@@ -18,8 +18,10 @@ static const CGFloat kInnerBlueDotAnimationTime = 1.2;
 
 static const CGFloat kOuterBlueDotInitialDimension = kOuterDotDimension;
 static const CGFloat kOuterBlueDotScaleFactor = 5.5;
+static const CGFloat kOuterBlueDotInitialAlpha = 0.5;
 
 @interface MGGPulsingBlueDot ()
+@property (strong, nonatomic) UIView *accuracyDot;
 @property (strong, nonatomic) UIView *outerBlueDot;
 @property (strong, nonatomic) UIView *middleWhiteDot;
 @property (strong, nonatomic) UIView *innerBlueDot;
@@ -31,15 +33,21 @@ static const CGFloat kOuterBlueDotScaleFactor = 5.5;
   if (self = [super initWithFrame:frame]) {
     self.clipsToBounds = NO;
     
+    _accuracyDot = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kOuterDotDimension, kOuterDotDimension)];
+    _accuracyDot.backgroundColor = [UIColor colorWithRed:51.0/255.0 green:148.0/255.0 blue:255.0/255.0 alpha:1.0];
+    _accuracyDot.alpha = 0.2;
+    _accuracyDot.layer.cornerRadius = _accuracyDot.frame.size.height / 2.0;
+    [self addSubview:_accuracyDot];
+    
     _outerBlueDot = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kOuterBlueDotInitialDimension, kOuterBlueDotInitialDimension)];
-    _outerBlueDot.backgroundColor = [UIColor colorWithRed:51.0/255.0 green:148.0/255.0 blue:255.0/255.0 alpha:1.0];
-    _outerBlueDot.alpha = 0.5;
-    _outerBlueDot.layer.cornerRadius = kOuterBlueDotInitialDimension / 2.0;
+    _outerBlueDot.backgroundColor = _accuracyDot.backgroundColor;
+    _outerBlueDot.alpha = kOuterBlueDotInitialAlpha;
+    _outerBlueDot.layer.cornerRadius = _outerBlueDot.frame.size.height / 2.0;
     [self addSubview:_outerBlueDot];
     
     _middleWhiteDot = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kOuterDotDimension, kOuterDotDimension)];
     _middleWhiteDot.backgroundColor = [UIColor whiteColor];
-    _middleWhiteDot.layer.cornerRadius = kOuterDotDimension / 2.0;
+    _middleWhiteDot.layer.cornerRadius = _middleWhiteDot.frame.size.height / 2.0;
     _middleWhiteDot.layer.shadowColor = [UIColor blackColor].CGColor;
     _middleWhiteDot.layer.shadowRadius = 10.0;
     _middleWhiteDot.layer.shadowOpacity = 0.2;
@@ -47,7 +55,7 @@ static const CGFloat kOuterBlueDotScaleFactor = 5.5;
     
     _innerBlueDot = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kInnerBlueDotDimension, kInnerBlueDotDimension)];
     _innerBlueDot.backgroundColor = [self _innerDotSmallColor];
-    _innerBlueDot.layer.cornerRadius = kOuterDotDimension * kInnerBlueDotRelativeMinSize / 2.0;
+    _innerBlueDot.layer.cornerRadius = _innerBlueDot.frame.size.height / 2.0;
     [self addSubview:_innerBlueDot];
     
     [self _startAnimation];
@@ -55,9 +63,18 @@ static const CGFloat kOuterBlueDotScaleFactor = 5.5;
   return self;
 }
 
+#pragma mark Public Setters
+
 - (void)setErrored:(BOOL)errored {
   _errored = errored;
   self.outerBlueDot.hidden = errored;
+}
+
+- (void)setAccuracyCircleRadius:(CGFloat)accuracyCircleRadius {
+  _accuracyCircleRadius = accuracyCircleRadius;
+  self.accuracyDot.frame = CGRectMake(0, 0, accuracyCircleRadius * 2, accuracyCircleRadius * 2);
+  self.accuracyDot.center = CGPointZero;
+  self.accuracyDot.layer.cornerRadius = accuracyCircleRadius;
 }
 
 #pragma mark Layout
@@ -67,6 +84,7 @@ static const CGFloat kOuterBlueDotScaleFactor = 5.5;
   self.innerBlueDot.center = CGPointZero;
   self.middleWhiteDot.center = CGPointZero;
   self.outerBlueDot.center = CGPointZero;
+  self.accuracyDot.center = CGPointZero;
 }
 
 #pragma mark Animation
@@ -99,7 +117,7 @@ static const CGFloat kOuterBlueDotScaleFactor = 5.5;
     self.outerBlueDot.alpha = 0.0;
   } completion:^(BOOL finished) {
     self.outerBlueDot.layer.transform = CATransform3DIdentity;
-    self.outerBlueDot.alpha = 0.5;
+    self.outerBlueDot.alpha = kOuterBlueDotInitialAlpha;
     MGGPulsingBlueDot *strongSelf = weakSelf;
     [strongSelf _animateOuterBlueDot];
   }];
