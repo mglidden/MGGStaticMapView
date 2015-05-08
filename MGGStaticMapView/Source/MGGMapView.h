@@ -29,4 +29,7 @@
 
 @property (weak, nonatomic) id<MKMapViewDelegate> delegate;
 
+//! The annotation representing the user's location
+@property (nonatomic, readonly) MKUserLocation *userLocation;
+
 @end

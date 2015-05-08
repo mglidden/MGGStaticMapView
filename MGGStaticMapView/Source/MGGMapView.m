@@ -9,6 +9,7 @@
 #import "MGGMapView.h"
 
 #import "MGGPulsingBlueDot.h"
+#import "MGGUserLocation.h"
 
 BOOL equalRegions(MKCoordinateRegion regionOne, MKCoordinateRegion regionTwo) {
   return regionOne.span.latitudeDelta == regionTwo.span.latitudeDelta && regionOne.span.longitudeDelta == regionTwo.span.longitudeDelta && regionOne.center.latitude == regionTwo.center.latitude && regionOne.center.longitude == regionTwo.center.longitude;
@@ -22,10 +23,10 @@ BOOL equalRegions(MKCoordinateRegion regionOne, MKCoordinateRegion regionTwo) {
 
 @property (strong, nonatomic) UIImageView *mapImageView;
 
-@property (strong, nonatomic) CLLocation *lastUserLocation;
 @property (strong, nonatomic) MGGPulsingBlueDot *blueDot;
 
-@property (strong, nonatomic) NSMutableArray *mutableAnnotations;
+@property (strong, nonatomic) MGGUserLocation *userLocationAnnotation;
+@property (strong, nonatomic) NSMutableOrderedSet *mutableAnnotations;
 @property (strong, nonatomic) NSMutableDictionary *annotationToAnnotationView;
 @end
 
@@ -40,17 +41,15 @@ BOOL equalRegions(MKCoordinateRegion regionOne, MKCoordinateRegion regionTwo) {
     _showsBuildings = YES;
     
     _locationManager = [[CLLocationManager alloc] init];
-    _mutableAnnotations = [NSMutableArray array];
+    _mutableAnnotations = [NSMutableOrderedSet orderedSet];
     _annotationToAnnotationView = [NSMutableDictionary dictionary];
     
     _mapImageView = [[UIImageView alloc] init];
     _mapImageView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_mapImageView];
     
+    _userLocationAnnotation = [[MGGUserLocation alloc] init];
     _blueDot = [[MGGPulsingBlueDot alloc] init];
-    _blueDot.translatesAutoresizingMaskIntoConstraints = NO;
-    _blueDot.hidden = YES;
-    [self addSubview:_blueDot];
     
     [self _installConstraints];
   }
@@ -113,57 +112,58 @@ BOOL equalRegions(MKCoordinateRegion regionOne, MKCoordinateRegion regionTwo) {
   }];
 }
 
-- (void)setLastUserLocation:(CLLocation *)lastUserLocation {
-  _lastUserLocation = lastUserLocation;
-  if (self.snapshot) {
-    [self _updateBlueDot];
+- (void)setSnapshot:(MKMapSnapshot *)snapshot {
+  if (_snapshot != snapshot) {
+    _snapshot = snapshot;
+    [self _updateUserLocationAnnotation];
     [self _updateAnnotationPositions];
   }
 }
 
-- (void)setSnapshot:(MKMapSnapshot *)snapshot {
-  _snapshot = snapshot;
-  if (self.lastUserLocation) {
-    [self _updateBlueDot];
+- (void)_updateUserLocationAnnotation {
+  if (self.userLocation.location && self.snapshot) {
+    self.blueDot.hidden = NO;
+    
+    CGPoint userLocationPoint = [self.snapshot pointForCoordinate:self.userLocation.location.coordinate];
+    self.blueDot.center = userLocationPoint;
+    
+    CLLocation *testLocation = [[CLLocation alloc] initWithLatitude:self.userLocation.location.coordinate.latitude + 0.001 longitude:self.userLocation.location.coordinate.longitude];
+    CLLocationDistance distanceInMeters = fabs([testLocation distanceFromLocation:self.userLocation.location]);
+    CGFloat distanceInPoints = fabs(userLocationPoint.y - [self.snapshot pointForCoordinate:testLocation.coordinate].y);
+    CGFloat pointsPerMeter = distanceInPoints / distanceInMeters;
+    CGFloat horizontalAccuracyPoints = pointsPerMeter * self.userLocation.location.horizontalAccuracy;
+    self.blueDot.accuracyCircleRadius = horizontalAccuracyPoints;
+  } else {
+    self.blueDot.hidden = YES;
   }
-  [self _updateAnnotationPositions];
-}
-
-- (void)_updateBlueDot {
-  self.blueDot.hidden = NO;
-  CGPoint userLocationPoint = [self.snapshot pointForCoordinate:self.lastUserLocation.coordinate];
-  self.blueDot.center = userLocationPoint;
-  
-  CLLocation *testLocation = [[CLLocation alloc] initWithLatitude:self.lastUserLocation.coordinate.latitude + 0.001 longitude:self.lastUserLocation.coordinate.longitude];
-  CLLocationDistance distanceInMeters = fabs([testLocation distanceFromLocation:self.lastUserLocation]);
-  CGFloat distanceInPoints = fabs(userLocationPoint.y - [self.snapshot pointForCoordinate:testLocation.coordinate].y);
-  CGFloat pointsPerMeter = distanceInPoints / distanceInMeters;
-  CGFloat horizontalAccuracyPoints = pointsPerMeter * self.lastUserLocation.horizontalAccuracy;
-  horizontalAccuracyPoints *= 300;
-  self.blueDot.accuracyCircleRadius = horizontalAccuracyPoints;
 }
 
 - (void)_updateAnnotationPositions {
   for (id<MKAnnotation> annotation in self.annotations) {
-    MKAnnotationView *annotationView = self.annotationToAnnotationView[[[self class] _hashForAnnotation:annotation]];
-    if (self.snapshot) {
-      CGPoint annotationPoint = [self.snapshot pointForCoordinate:annotation.coordinate];
-      annotationPoint.x += annotationView.centerOffset.x;
-      annotationPoint.y += annotationView.centerOffset.y;
-      annotationView.center = annotationPoint;
-      annotationView.hidden = NO;
-    } else {
-      annotationView.hidden = YES;
-    }
+    [self _updatePositionForAnnotation:annotation];
   }
 }
 
-#pragma mark Public Setters
+- (void)_updatePositionForAnnotation:(id<MKAnnotation>)annotation {
+  MKAnnotationView *annotationView = self.annotationToAnnotationView[[[self class] _hashForAnnotation:annotation]];
+  if (annotation == self.userLocation) {
+    [self _updateUserLocationAnnotation];
+  } else if (self.snapshot) {
+    CGPoint annotationPoint = [self.snapshot pointForCoordinate:annotation.coordinate];
+    annotationPoint.x += annotationView.centerOffset.x;
+    annotationPoint.y += annotationView.centerOffset.y;
+    annotationView.center = annotationPoint;
+    annotationView.hidden = NO;
+  } else {
+    annotationView.hidden = YES;
+  }
+}
+
+#pragma mark Public Properties
 
 - (void)setRegion:(MKCoordinateRegion)region {
   if (!equalRegions(region, _region)) {
     _region = region;
-    _region.span.latitudeDelta *= 3;
     [self _takeSnapshotIfNeeded];
   }
 }
@@ -177,8 +177,12 @@ BOOL equalRegions(MKCoordinateRegion regionOne, MKCoordinateRegion regionTwo) {
   _showsUserLocation = showsUserLocation;
   
   if (!_showsUserLocation) {
-    self.blueDot.hidden = YES;
+    [self removeAnnotation:self.userLocation];
+    self.userLocationAnnotation.currentLocation = nil;
+    [self.locationManager stopUpdatingLocation];
     return;
+  } else {
+    [self addAnnotation:self.userLocation];
   }
   
   CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
@@ -205,57 +209,69 @@ BOOL equalRegions(MKCoordinateRegion regionOne, MKCoordinateRegion regionTwo) {
   [self _takeSnapshotIfNeeded];
 }
 
+- (MKUserLocation *)userLocation {
+  return self.userLocationAnnotation;
+}
+
 #pragma mark Annotations
 
 - (void)addAnnotation:(id <MKAnnotation>)annotation {
-  [self.mutableAnnotations addObject:annotation];
-  [self _addAnnotations:@[annotation]];
+  [self addAnnotations:@[annotation]];
 }
 
 - (void)addAnnotations:(NSArray *)annotations {
-  [self.mutableAnnotations addObjectsFromArray:annotations];
   [self _addAnnotations:annotations];
 }
 
 - (void)removeAnnotation:(id <MKAnnotation>)annotation {
-  [self.mutableAnnotations removeObject:annotation];
-  [self _removeAnnotations:@[annotation]];
+  [self removeAnnotations:@[annotation]];
 }
 
 - (void)removeAnnotations:(NSArray *)annotations {
-  [self.mutableAnnotations removeObjectsInArray:annotations];
   [self _removeAnnotations:annotations];
 }
 
 - (NSArray *)annotations {
-  return [self.mutableAnnotations copy];
+  return [self.mutableAnnotations array];
 }
 
 - (void)_addAnnotations:(NSArray *)annotations {
+  [self.mutableAnnotations addObjectsFromArray:annotations];
+  
   for (id<MKAnnotation> annotation in annotations) {
     id<MKMapViewDelegate> delegate = self.delegate;
-    MKAnnotationView *annotationView = nil;
-    if ([delegate respondsToSelector:@selector(mapView:viewForAnnotation:)]) {
-      annotationView = [delegate mapView:nil viewForAnnotation:annotation];
-    } else {
-      annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:nil];
+    MKAnnotationView *annotationView = self.annotationToAnnotationView[[[self class] _hashForAnnotation:annotation]];
+    if (annotationView == nil) {
+      if ([delegate respondsToSelector:@selector(mapView:viewForAnnotation:)]) {
+        annotationView = [delegate mapView:nil viewForAnnotation:annotation];
+      }
+      // If the delegate doesn't want to provide an annotation view, we'll fall back to some defaults.
+      if (annotationView == nil) {
+        if (annotation == self.userLocation){
+          annotationView = self.blueDot;
+        } else {
+          annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:nil];
+        }
+      }
+      self.annotationToAnnotationView[[[self class] _hashForAnnotation:annotation]] = annotationView;
+      
+      [self addSubview:annotationView];
     }
-    self.annotationToAnnotationView[[[self class] _hashForAnnotation:annotation]] = annotationView;
-    
-    [self addSubview:annotationView];
+    [self _updatePositionForAnnotation:annotation];
   }
-  [self _updateAnnotationPositions];
 }
 
 - (void)_removeAnnotations:(NSArray *)annotations {
+  [self.mutableAnnotations removeObjectsInArray:annotations];
   for (id<MKAnnotation> annotation in annotations) {
-    MKAnnotationView *annotationView = self.annotationToAnnotationView[annotation];
-    [self.annotationToAnnotationView removeObjectForKey:[[self class] _hashForAnnotation:annotation]];
-    [annotationView removeFromSuperview];
+    NSNumber *hashKey = [[self class] _hashForAnnotation:annotation];
+    [self.annotationToAnnotationView[hashKey] removeFromSuperview];
+    [self.annotationToAnnotationView removeObjectForKey:hashKey];
   }
 }
 
 + (NSNumber *)_hashForAnnotation:(id<MKAnnotation>)annotation {
+  // TODO: make this better
   CLLocationCoordinate2D coordinate = [annotation coordinate];
   return @(@(coordinate.latitude).hash + @(coordinate.longitude).hash);
 }
@@ -271,8 +287,10 @@ BOOL equalRegions(MKCoordinateRegion regionOne, MKCoordinateRegion regionTwo) {
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
   self.blueDot.errored = NO;
   CLLocation *newLocation = locations.lastObject;
-  if (self.lastUserLocation.coordinate.latitude != newLocation.coordinate.latitude || self.lastUserLocation.coordinate.longitude != newLocation.coordinate.longitude || self.lastUserLocation.horizontalAccuracy != newLocation.horizontalAccuracy) {
-    self.lastUserLocation = locations.lastObject;
+  CLLocation *lastLocation = self.userLocation.location;
+  if (lastLocation.coordinate.latitude != newLocation.coordinate.latitude || lastLocation.coordinate.longitude != newLocation.coordinate.longitude || lastLocation.horizontalAccuracy != newLocation.horizontalAccuracy) {
+    self.userLocationAnnotation.currentLocation = locations.lastObject;
+    [self _updateUserLocationAnnotation];
   }
 }
 

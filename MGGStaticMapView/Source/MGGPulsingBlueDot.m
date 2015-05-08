@@ -97,6 +97,7 @@ static const CGFloat kOuterBlueDotInitialAlpha = 0.5;
 }
 
 - (void)_animateInnerBlueDot {
+  // todo: fix the memory cycle in here and move it to a keyframe animation
   MGGPulsingBlueDot __weak *weakSelf = self;
   [UIView animateWithDuration:kInnerBlueDotAnimationTime delay:0.25 options:UIViewAnimationOptionCurveEaseOut animations:^{
     self.innerBlueDot.layer.transform = CATransform3DScale(CATransform3DIdentity, kInnerBlueDotScaleFactor, kInnerBlueDotScaleFactor, 1.0);
