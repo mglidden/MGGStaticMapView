@@ -22,6 +22,7 @@ static const CGFloat kOuterBlueDotInitialAlpha = 0.5;
 
 @interface MGGPulsingBlueDot ()
 @property (strong, nonatomic) UIView *accuracyDot;
+@property (assign, nonatomic) CGFloat accuracyDotScale;
 @property (strong, nonatomic) UIView *outerBlueDot;
 @property (strong, nonatomic) UIView *middleWhiteDot;
 @property (strong, nonatomic) UIView *innerBlueDot;
@@ -33,7 +34,7 @@ static const CGFloat kOuterBlueDotInitialAlpha = 0.5;
   if (self = [super initWithFrame:frame]) {
     self.clipsToBounds = NO;
     
-    _accuracyDot = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kInnerBlueDotDimension, kInnerBlueDotDimension)];
+    _accuracyDot = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kOuterBlueDotInitialDimension, kOuterBlueDotInitialDimension)];
     _accuracyDot.backgroundColor = [UIColor colorWithRed:51.0/255.0 green:148.0/255.0 blue:255.0/255.0 alpha:1.0];
     _accuracyDot.alpha = 0.2;
     _accuracyDot.layer.cornerRadius = _accuracyDot.frame.size.height / 2.0;
@@ -75,8 +76,8 @@ static const CGFloat kOuterBlueDotInitialAlpha = 0.5;
   _accuracyCircleRadius = accuracyCircleRadius;
   [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionLayoutSubviews animations:^{
     self.accuracyDot.layer.transform = CATransform3DIdentity;
-    CGFloat scale = accuracyCircleRadius / self.accuracyDot.frame.size.height;
-    self.accuracyDot.layer.transform = CATransform3DScale(CATransform3DIdentity, scale, scale, 1.0);
+    self.accuracyDotScale = accuracyCircleRadius / self.accuracyDot.frame.size.height;
+    self.accuracyDot.layer.transform = CATransform3DScale(CATransform3DIdentity, self.accuracyDotScale, self.accuracyDotScale, 1.0);
   } completion:nil];
 }
 
@@ -118,7 +119,15 @@ static const CGFloat kOuterBlueDotInitialAlpha = 0.5;
 - (void)_animateOuterBlueDot {
   MGGPulsingBlueDot *__weak weakSelf = self;
   [UIView animateWithDuration:1.8 delay:1.2 options:UIViewAnimationOptionCurveEaseOut animations:^{
-    self.outerBlueDot.layer.transform = CATransform3DScale(CATransform3DIdentity, kOuterBlueDotScaleFactor, kOuterBlueDotScaleFactor, 1.0);
+    CGFloat scale = kOuterBlueDotScaleFactor;
+    if (self.accuracyDot.frame.size.height > self.middleWhiteDot.frame.size.height) {
+      if (self.accuracyDotScale > kOuterBlueDotScaleFactor) {
+        scale = 0.0;
+      } else {
+        scale = self.accuracyDotScale;
+      }
+    }
+    self.outerBlueDot.layer.transform = CATransform3DScale(CATransform3DIdentity, scale, scale, 1.0);
     self.outerBlueDot.alpha = 0.0;
   } completion:^(BOOL finished) {
     MGGPulsingBlueDot *strongSelf = weakSelf;
