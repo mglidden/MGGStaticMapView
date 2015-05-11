@@ -8,17 +8,20 @@
 
 #import "MGGPulsingBlueDot.h"
 
-static const CGFloat kOuterDotDimension = 22.0;
+static const CGFloat kMiddleWhiteDotDimension = 22.0;
 
 static const CGFloat kInnerBlueDotRelativeMinSize = 0.59;
 static const CGFloat kInnerBlueDotRelativeMaxSize = 0.72;
 static const CGFloat kInnerBlueDotScaleFactor = kInnerBlueDotRelativeMaxSize / kInnerBlueDotRelativeMinSize;
-static const CGFloat kInnerBlueDotDimension = kOuterDotDimension * kInnerBlueDotRelativeMinSize;
+static const CGFloat kInnerBlueDotDimension = kMiddleWhiteDotDimension * kInnerBlueDotRelativeMinSize;
 static const CGFloat kInnerBlueDotAnimationTime = 1.2;
 
-static const CGFloat kOuterBlueDotInitialDimension = kOuterDotDimension;
-static const CGFloat kOuterBlueDotScaleFactor = 5.5;
+static const CGFloat kOuterBlueDotInitialDimension = kMiddleWhiteDotDimension;
+static const CGFloat kOuterBlueDotMaxScaleFactor = 5.5;
 static const CGFloat kOuterBlueDotInitialAlpha = 0.5;
+
+static const CGFloat kAccuracyDotInitialDimension = kMiddleWhiteDotDimension;
+static const CGFloat kAccuracyDotMinimumScaleFactor = 1.5; // Minimum size, under which we won't show the accuracy dot
 
 @interface MGGPulsingBlueDot ()
 @property (strong, nonatomic) UIView *accuracyDot;
@@ -34,7 +37,7 @@ static const CGFloat kOuterBlueDotInitialAlpha = 0.5;
   if (self = [super initWithFrame:frame]) {
     self.clipsToBounds = NO;
     
-    _accuracyDot = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kOuterBlueDotInitialDimension, kOuterBlueDotInitialDimension)];
+    _accuracyDot = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kAccuracyDotInitialDimension, kAccuracyDotInitialDimension)];
     _accuracyDot.backgroundColor = [UIColor colorWithRed:51.0/255.0 green:148.0/255.0 blue:255.0/255.0 alpha:1.0];
     _accuracyDot.alpha = 0.2;
     _accuracyDot.layer.cornerRadius = _accuracyDot.frame.size.height / 2.0;
@@ -46,7 +49,7 @@ static const CGFloat kOuterBlueDotInitialAlpha = 0.5;
     _outerBlueDot.layer.cornerRadius = _outerBlueDot.frame.size.height / 2.0;
     [self addSubview:_outerBlueDot];
     
-    _middleWhiteDot = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kOuterDotDimension, kOuterDotDimension)];
+    _middleWhiteDot = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMiddleWhiteDotDimension, kMiddleWhiteDotDimension)];
     _middleWhiteDot.backgroundColor = [UIColor whiteColor];
     _middleWhiteDot.layer.cornerRadius = _middleWhiteDot.frame.size.height / 2.0;
     _middleWhiteDot.layer.shadowColor = [UIColor blackColor].CGColor;
@@ -77,6 +80,7 @@ static const CGFloat kOuterBlueDotInitialAlpha = 0.5;
     self.accuracyDot.layer.transform = CATransform3DIdentity;
     self.accuracyDotScale = accuracyCircleRadius / self.accuracyDot.frame.size.height;
     self.accuracyDot.layer.transform = CATransform3DScale(CATransform3DIdentity, self.accuracyDotScale, self.accuracyDotScale, 1.0);
+    self.accuracyDot.hidden = self.accuracyDotScale < kAccuracyDotMinimumScaleFactor;
   };
   if (self.accuracyDotScale == 0.0) {
     animationBlock();
@@ -123,9 +127,11 @@ static const CGFloat kOuterBlueDotInitialAlpha = 0.5;
 - (void)_animateOuterBlueDot {
   MGGPulsingBlueDot *__weak weakSelf = self;
   [UIView animateWithDuration:1.8 delay:1.2 options:UIViewAnimationOptionCurveEaseOut animations:^{
-    CGFloat scale = kOuterBlueDotScaleFactor;
-    if (self.accuracyDot.frame.size.height > self.middleWhiteDot.frame.size.height) {
-      if (self.accuracyDotScale > kOuterBlueDotScaleFactor) {
+    CGFloat scale = kOuterBlueDotMaxScaleFactor;
+    // If the accuracy dot is big enough, the outer blue dot should only animate to the radius of the accuracy dot.
+    if (self.accuracyDotScale > kAccuracyDotMinimumScaleFactor) {
+      // If the accuracy dot is too big, we don't want to animate the outer blue dot anymore
+      if (self.accuracyDotScale > kOuterBlueDotMaxScaleFactor) {
         scale = 0.0;
       } else {
         scale = self.accuracyDotScale;
