@@ -72,13 +72,17 @@ static const CGFloat kOuterBlueDotInitialAlpha = 0.5;
 }
 
 - (void)setAccuracyCircleRadius:(CGFloat)accuracyCircleRadius {
-  // todo: this jumps on the first assignment
   _accuracyCircleRadius = accuracyCircleRadius;
-  [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionLayoutSubviews animations:^{
+  void (^animationBlock)() = ^{
     self.accuracyDot.layer.transform = CATransform3DIdentity;
     self.accuracyDotScale = accuracyCircleRadius / self.accuracyDot.frame.size.height;
     self.accuracyDot.layer.transform = CATransform3DScale(CATransform3DIdentity, self.accuracyDotScale, self.accuracyDotScale, 1.0);
-  } completion:nil];
+  };
+  if (self.accuracyDotScale == 0.0) {
+    animationBlock();
+  } else {
+    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionLayoutSubviews animations:animationBlock completion:nil];
+  }
 }
 
 #pragma mark Layout
