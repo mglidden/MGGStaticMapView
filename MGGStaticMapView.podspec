@@ -1,11 +1,11 @@
 Pod::Spec.new do |s|
   s.name         = 'MGGStaticMapView'
-  s.version      = '0.0.1'
+  s.version      = '1.0.0'
   s.license      = 'Apache V2'
   s.summary      = 'Drop-in replacement for MKMapView that uses a snapshotter to reduce memory usage.'
-  s.homepage     = 'https://github.com/masong/MGGStaticMapView'
+  s.homepage     = 'https://github.com/mglidden/MGGStaticMapView'
   s.authors      = { 'Mason Glidden' => 'mason@masonglidden.com' }
-  s.source       = { :git => 'https://github.com/masong/MGGStaticMapView.git', :tag => s.version.to_s }
+  s.source       = { :git => 'https://github.com/mglidden/MGGStaticMapView.git', :tag => s.version.to_s }
   s.requires_arc = true
 
   s.platform     = :ios

@@ -1,1 +1,1 @@
-Drop-in MKMapView replacement that uses MKSnapshotter to create a map, and then adds a fake glowing blue dot and any annotations.
+A drop-in MKMapView replacement that uses MKSnapshotter to create a map, and then adds a fake glowing blue dot and any annotations. This allows you to avoid creating a full MKMapView in views where the user doesn't need to interact with the map. MGGStaticMapView takes significantly less CPU usage and memory to display the map.

@@ -1,5 +1,5 @@
 PODS:
-  - MGGStaticMapView (0.0.1)
+  - MGGStaticMapView (1.0.0)
 
 DEPENDENCIES:
   - MGGStaticMapView (from `../`)
@@ -9,6 +9,6 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  MGGStaticMapView: 0cf6eb317a1d7583708ba246a755220d8d987ac8
+  MGGStaticMapView: 7748146e7824ce13559056650609c6bf01d6bb54
 
 COCOAPODS: 0.36.3
