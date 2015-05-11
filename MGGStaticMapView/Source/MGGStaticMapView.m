@@ -85,7 +85,8 @@
   }
   
   // Make sure all of the data is correct before we take a snapshot
-  if (CGSizeEqualToSize(self.mapImageView.frame.size, CGSizeZero) ||
+  if (self.frame.size.height <= 0.0 ||
+      self.frame.size.width <= 0.0 ||
       self.region.span.longitudeDelta <= 0.0 ||
       self.region.span.latitudeDelta <= 0.0) {
     return;
