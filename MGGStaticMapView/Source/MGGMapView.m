@@ -89,6 +89,7 @@
   self.snapshot = nil;
   self.mapImageView.image = nil;
   self.mapImageView.alpha = 0.0;
+  [self _updateAnnotations]; // hides the annotations while the snapshot is being taken.
   
   self.snapshotterOptions = [[MKMapSnapshotOptions alloc] init];
   self.snapshotterOptions.mapType = self.mapType;
@@ -115,7 +116,7 @@
   if (_snapshot != snapshot) {
     _snapshot = snapshot;
     [self _updateUserLocationAnnotation];
-    [self _updateAnnotationPositions];
+    [self _updateAnnotations];
   }
 }
 
@@ -137,7 +138,7 @@
   }
 }
 
-- (void)_updateAnnotationPositions {
+- (void)_updateAnnotations {
   for (id<MKAnnotation> annotation in self.annotations) {
     [self _updatePositionForAnnotation:annotation];
   }
@@ -261,8 +262,10 @@
 }
 
 - (void)_removeAnnotations:(NSArray *)annotations {
-  [self.mutableAnnotations removeObjectsInArray:annotations];
-  for (id<MKAnnotation> annotation in annotations) {
+  // In case someone did [mapView removeAnnotations:mapView.annotations] we'll need to make a copy of annotations before mutating things.
+  NSArray *annotationsToRemove = [annotations copy];
+  [self.mutableAnnotations removeObjectsInArray:annotationsToRemove];
+  for (id<MKAnnotation> annotation in annotationsToRemove) {
     NSNumber *hashKey = [[self class] _hashForAnnotation:annotation];
     [self.annotationToAnnotationView[hashKey] removeFromSuperview];
     [self.annotationToAnnotationView removeObjectForKey:hashKey];
