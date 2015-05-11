@@ -8,7 +8,8 @@
 
 #import <MapKit/MapKit.h>
 
-@interface MGGUserLocation : MKUserLocation
+//! Mutable subclass of MKUserLocation, used internall by MKStaticMapView.
+@interface MGGMutableUserLocation : MKUserLocation
 
 //! Returns nil if the owning MKMapView's showsUserLocation is NO or the user's location has yet to be determined.
 @property (strong, nonatomic) CLLocation *currentLocation;

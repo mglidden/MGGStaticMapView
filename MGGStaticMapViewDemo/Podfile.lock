@@ -9,6 +9,6 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  MGGStaticMapView: b1fa2f763d1cac41fa122a8d76de6bb723a46082
+  MGGStaticMapView: 0cf6eb317a1d7583708ba246a755220d8d987ac8
 
 COCOAPODS: 0.36.3

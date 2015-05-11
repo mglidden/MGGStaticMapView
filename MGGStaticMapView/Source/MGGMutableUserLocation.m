@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 mgg. All rights reserved.
 //
 
-#import "MGGUserLocation.h"
+#import "MGGMutableUserLocation.h"
 
-@implementation MGGUserLocation
+@implementation MGGMutableUserLocation
 
 - (CLLocation *)location {
   return self.currentLocation;

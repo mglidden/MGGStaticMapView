@@ -6,13 +6,13 @@
 //  Copyright (c) 2015 mgg. All rights reserved.
 //
 
-#import "MGGMapView.h"
+#import "MGGStaticMapView.h"
 
 #import "MGGPulsingBlueDot.h"
-#import "MGGUserLocation.h"
+#import "MGGMutableUserLocation.h"
 #import "MGGMapUtils.h"
 
-@interface MGGMapView () <CLLocationManagerDelegate>
+@interface MGGStaticMapView () <CLLocationManagerDelegate>
 @property (strong, nonatomic) MKMapSnapshotter *snapshotter;
 @property (strong, nonatomic) MKMapSnapshotOptions *snapshotterOptions;
 @property (strong, nonatomic) CLLocationManager *locationManager;
@@ -22,12 +22,12 @@
 
 @property (strong, nonatomic) MGGPulsingBlueDot *blueDot;
 
-@property (strong, nonatomic) MGGUserLocation *userLocationAnnotation;
+@property (strong, nonatomic) MGGMutableUserLocation *mutableUserLocation;
 @property (strong, nonatomic) NSMutableOrderedSet *mutableAnnotations;
 @property (strong, nonatomic) NSMutableDictionary *annotationToAnnotationView;
 @end
 
-@implementation MGGMapView
+@implementation MGGStaticMapView
 
 - (instancetype)initWithFrame:(CGRect)frame {
   if (self = [super initWithFrame:frame]) {
@@ -45,7 +45,7 @@
     _mapImageView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_mapImageView];
     
-    _userLocationAnnotation = [[MGGUserLocation alloc] init];
+    _mutableUserLocation = [[MGGMutableUserLocation alloc] init];
     _blueDot = [[MGGPulsingBlueDot alloc] init];
     
     [self _installConstraints];
@@ -99,10 +99,10 @@
   self.snapshotterOptions.showsBuildings = self.showsBuildings;
   
   self.snapshotter = [[MKMapSnapshotter alloc] initWithOptions:self.snapshotterOptions];
-  MGGMapView *__weak weakSelf = self;
+  MGGStaticMapView *__weak weakSelf = self;
   [self.snapshotter startWithQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0) completionHandler:^(MKMapSnapshot *snapshot, NSError *error) {
     dispatch_async(dispatch_get_main_queue(), ^{
-      MGGMapView *strongSelf = weakSelf;
+      MGGStaticMapView *strongSelf = weakSelf;
       strongSelf.snapshot = snapshot;
       strongSelf.mapImageView.image = snapshot.image;
       [UIView animateWithDuration:0.2 animations:^{
@@ -178,7 +178,7 @@
   
   if (!_showsUserLocation) {
     [self removeAnnotation:self.userLocation];
-    self.userLocationAnnotation.currentLocation = nil;
+    self.mutableUserLocation.currentLocation = nil;
     [self.locationManager stopUpdatingLocation];
     return;
   } else {
@@ -210,7 +210,7 @@
 }
 
 - (MKUserLocation *)userLocation {
-  return self.userLocationAnnotation;
+  return self.mutableUserLocation;
 }
 
 #pragma mark Annotations
@@ -291,7 +291,7 @@
   CLLocation *newLocation = locations.lastObject;
   CLLocation *lastLocation = self.userLocation.location;
   if (lastLocation.coordinate.latitude != newLocation.coordinate.latitude || lastLocation.coordinate.longitude != newLocation.coordinate.longitude || lastLocation.horizontalAccuracy != newLocation.horizontalAccuracy) {
-    self.userLocationAnnotation.currentLocation = locations.lastObject;
+    self.mutableUserLocation.currentLocation = locations.lastObject;
     [self _updateUserLocationAnnotation];
   }
 }

@@ -13,7 +13,7 @@
 #import <MGGStaticMapView/MGGStaticMapView.h>
 
 @interface MGGDemoView ()
-@property (strong, nonatomic) MGGMapView *staticMapView;
+@property (strong, nonatomic) MGGStaticMapView *staticMapView;
 @property (strong, nonatomic) MKMapView *liveMapView;
 @end
 
@@ -23,7 +23,7 @@
   if (self = [super initWithFrame:frame]) {
     self.backgroundColor = [UIColor whiteColor];
     
-    _staticMapView = [[MGGMapView alloc] init];
+    _staticMapView = [[MGGStaticMapView alloc] init];
     _staticMapView.translatesAutoresizingMaskIntoConstraints = NO;
     [self _setupMapView:(MKMapView *)_staticMapView];
     [self addSubview:_staticMapView];

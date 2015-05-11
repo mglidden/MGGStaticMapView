@@ -8,14 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		BB9211EC1AB4FA5F0089E094 /* MGGStaticMapView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB9211E01AB4FA5F0089E094 /* MGGStaticMapView.framework */; };
-		BB92120E1AB4FCBB0089E094 /* MGGMapView.h in Headers */ = {isa = PBXBuildFile; fileRef = BB9212081AB4FCBB0089E094 /* MGGMapView.h */; };
-		BB92120F1AB4FCBB0089E094 /* MGGMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = BB9212091AB4FCBB0089E094 /* MGGMapView.m */; };
+		BB92120E1AB4FCBB0089E094 /* MGGStaticMapView.h in Headers */ = {isa = PBXBuildFile; fileRef = BB9212081AB4FCBB0089E094 /* MGGStaticMapView.h */; };
+		BB92120F1AB4FCBB0089E094 /* MGGStaticMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = BB9212091AB4FCBB0089E094 /* MGGStaticMapView.m */; };
 		BB9212101AB4FCBB0089E094 /* MGGPulsingBlueDot.h in Headers */ = {isa = PBXBuildFile; fileRef = BB92120A1AB4FCBB0089E094 /* MGGPulsingBlueDot.h */; };
 		BB9212111AB4FCBB0089E094 /* MGGPulsingBlueDot.m in Sources */ = {isa = PBXBuildFile; fileRef = BB92120B1AB4FCBB0089E094 /* MGGPulsingBlueDot.m */; };
-		BB9212121AB4FCBB0089E094 /* MGGStaticMapView.h in Headers */ = {isa = PBXBuildFile; fileRef = BB92120C1AB4FCBB0089E094 /* MGGStaticMapView.h */; };
 		BB92121B1AB4FDDA0089E094 /* MGGStaticMapViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BB9212141AB4FCC90089E094 /* MGGStaticMapViewTests.m */; };
-		BBB514321AFD406300C5E332 /* MGGUserLocation.h in Headers */ = {isa = PBXBuildFile; fileRef = BBB514301AFD406300C5E332 /* MGGUserLocation.h */; };
-		BBB514331AFD406300C5E332 /* MGGUserLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = BBB514311AFD406300C5E332 /* MGGUserLocation.m */; };
+		BBB514321AFD406300C5E332 /* MGGMutableUserLocation.h in Headers */ = {isa = PBXBuildFile; fileRef = BBB514301AFD406300C5E332 /* MGGMutableUserLocation.h */; };
+		BBB514331AFD406300C5E332 /* MGGMutableUserLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = BBB514311AFD406300C5E332 /* MGGMutableUserLocation.m */; };
 		BBC482041B012002004234A1 /* MGGMapUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = BBC482021B012002004234A1 /* MGGMapUtils.h */; };
 		BBC482051B012002004234A1 /* MGGMapUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = BBC482031B012002004234A1 /* MGGMapUtils.m */; };
 /* End PBXBuildFile section */
@@ -33,16 +32,15 @@
 /* Begin PBXFileReference section */
 		BB9211E01AB4FA5F0089E094 /* MGGStaticMapView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MGGStaticMapView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB9211EB1AB4FA5F0089E094 /* MGGStaticMapViewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MGGStaticMapViewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		BB9212081AB4FCBB0089E094 /* MGGMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGGMapView.h; sourceTree = "<group>"; };
-		BB9212091AB4FCBB0089E094 /* MGGMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGGMapView.m; sourceTree = "<group>"; };
+		BB9212081AB4FCBB0089E094 /* MGGStaticMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGGStaticMapView.h; sourceTree = "<group>"; };
+		BB9212091AB4FCBB0089E094 /* MGGStaticMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGGStaticMapView.m; sourceTree = "<group>"; };
 		BB92120A1AB4FCBB0089E094 /* MGGPulsingBlueDot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGGPulsingBlueDot.h; sourceTree = "<group>"; };
 		BB92120B1AB4FCBB0089E094 /* MGGPulsingBlueDot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGGPulsingBlueDot.m; sourceTree = "<group>"; };
-		BB92120C1AB4FCBB0089E094 /* MGGStaticMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGGStaticMapView.h; sourceTree = "<group>"; };
 		BB9212131AB4FCC90089E094 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BB9212141AB4FCC90089E094 /* MGGStaticMapViewTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGGStaticMapViewTests.m; sourceTree = "<group>"; };
 		BB9212191AB4FD7D0089E094 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BBB514301AFD406300C5E332 /* MGGUserLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGGUserLocation.h; sourceTree = "<group>"; };
-		BBB514311AFD406300C5E332 /* MGGUserLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGGUserLocation.m; sourceTree = "<group>"; };
+		BBB514301AFD406300C5E332 /* MGGMutableUserLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGGMutableUserLocation.h; sourceTree = "<group>"; };
+		BBB514311AFD406300C5E332 /* MGGMutableUserLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGGMutableUserLocation.m; sourceTree = "<group>"; };
 		BBC482021B012002004234A1 /* MGGMapUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGGMapUtils.h; sourceTree = "<group>"; };
 		BBC482031B012002004234A1 /* MGGMapUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGGMapUtils.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -88,13 +86,12 @@
 		BB9212061AB4FCBB0089E094 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				BB9212081AB4FCBB0089E094 /* MGGMapView.h */,
-				BB9212091AB4FCBB0089E094 /* MGGMapView.m */,
+				BB9212081AB4FCBB0089E094 /* MGGStaticMapView.h */,
+				BB9212091AB4FCBB0089E094 /* MGGStaticMapView.m */,
 				BB92120A1AB4FCBB0089E094 /* MGGPulsingBlueDot.h */,
 				BB92120B1AB4FCBB0089E094 /* MGGPulsingBlueDot.m */,
-				BB92120C1AB4FCBB0089E094 /* MGGStaticMapView.h */,
-				BBB514301AFD406300C5E332 /* MGGUserLocation.h */,
-				BBB514311AFD406300C5E332 /* MGGUserLocation.m */,
+				BBB514301AFD406300C5E332 /* MGGMutableUserLocation.h */,
+				BBB514311AFD406300C5E332 /* MGGMutableUserLocation.m */,
 				BBC482021B012002004234A1 /* MGGMapUtils.h */,
 				BBC482031B012002004234A1 /* MGGMapUtils.m */,
 			);
@@ -125,9 +122,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB9212121AB4FCBB0089E094 /* MGGStaticMapView.h in Headers */,
-				BB92120E1AB4FCBB0089E094 /* MGGMapView.h in Headers */,
-				BBB514321AFD406300C5E332 /* MGGUserLocation.h in Headers */,
+				BB92120E1AB4FCBB0089E094 /* MGGStaticMapView.h in Headers */,
+				BBB514321AFD406300C5E332 /* MGGMutableUserLocation.h in Headers */,
 				BB9212101AB4FCBB0089E094 /* MGGPulsingBlueDot.h in Headers */,
 				BBC482041B012002004234A1 /* MGGMapUtils.h in Headers */,
 			);
@@ -230,9 +226,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				BB9212111AB4FCBB0089E094 /* MGGPulsingBlueDot.m in Sources */,
-				BBB514331AFD406300C5E332 /* MGGUserLocation.m in Sources */,
+				BBB514331AFD406300C5E332 /* MGGMutableUserLocation.m in Sources */,
 				BBC482051B012002004234A1 /* MGGMapUtils.m in Sources */,
-				BB92120F1AB4FCBB0089E094 /* MGGMapView.m in Sources */,
+				BB92120F1AB4FCBB0089E094 /* MGGStaticMapView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

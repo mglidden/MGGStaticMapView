@@ -1,5 +1,5 @@
 //
-//  MGGStaticMapView.h
+//  MGGMapView.h
 //  MGGStaticMapView
 //
 //  Created by Mason Glidden on 3/14/15.
@@ -8,4 +8,29 @@
 
 #import <UIKit/UIKit.h>
 
-#import <MGGStaticMapView/MGGMapView.h>
+#import <MapKit/MapKit.h>
+
+@interface MGGStaticMapView : UIView
+
+// All functions work identically to MKMapView.
+@property (nonatomic, assign) MKMapType mapType;
+@property (nonatomic, assign) MKCoordinateRegion region;
+@property (nonatomic, assign) CLLocationCoordinate2D centerCoordinate;
+@property (nonatomic) BOOL showsPointsOfInterest;
+@property (nonatomic) BOOL showsBuildings;
+@property (nonatomic) BOOL showsUserLocation;
+
+- (void)addAnnotation:(id <MKAnnotation>)annotation;
+- (void)addAnnotations:(NSArray *)annotations;
+
+- (void)removeAnnotation:(id <MKAnnotation>)annotation;
+- (void)removeAnnotations:(NSArray *)annotations;
+
+@property (nonatomic, readonly) NSArray *annotations;
+
+@property (weak, nonatomic) id<MKMapViewDelegate> delegate;
+
+//! The annotation representing the user's location
+@property (nonatomic, readonly) MKUserLocation *userLocation;
+
+@end

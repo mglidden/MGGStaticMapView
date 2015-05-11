@@ -11,6 +11,6 @@ Pod::Spec.new do |s|
   s.platform     = :ios
   s.ios.deployment_target = '7.0'
 
-  s.public_header_files = 'MGGStaticMapView/Source/**/*.h'
+  s.public_header_files = 'MGGStaticMapView/Source/**/MGGStaticMapView.h'
   s.source_files = 'MGGStaticMapView/Source/**/*.{h,m}'
 end
