@@ -82,10 +82,20 @@ static const CGFloat kAccuracyDotMinimumScaleFactor = 1.5; // Minimum size, unde
     self.accuracyDot.layer.transform = CATransform3DScale(CATransform3DIdentity, self.accuracyDotScale, self.accuracyDotScale, 1.0);
     self.accuracyDot.hidden = self.accuracyDotScale < kAccuracyDotMinimumScaleFactor;
   };
-  if (self.accuracyDotScale == 0.0) {
+  if (self.accuracyDotScale == 0.0 || !self.isAnimating) {
     animationBlock();
   } else {
     [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionLayoutSubviews animations:animationBlock completion:nil];
+  }
+}
+
+- (void)setAnimating:(BOOL)animating {
+  if (_animating != animating) {
+    _animating = animating;
+    // Theoretically, toggling animating really quickly could get you into a state where you are running multiple animations at once. However, since setAnimating: is only called when changing windows, that can't currently happen.
+    if (animating) {
+      [self _startAnimation];
+    }
   }
 }
 
@@ -107,6 +117,10 @@ static const CGFloat kAccuracyDotMinimumScaleFactor = 1.5; // Minimum size, unde
 }
 
 - (void)_animateInnerBlueDot {
+  if (!self.isAnimating) {
+    return;
+  }
+  
   // I would love to use a keyframe animation here, but keyframes don't support ease in and ease out (specifically, I would need it to change from ease-out to ease-in halfway through).
   MGGPulsingBlueDot *__weak weakSelf = self;
   [UIView animateWithDuration:kInnerBlueDotAnimationTime delay:0.25 options:UIViewAnimationOptionCurveEaseOut animations:^{
@@ -125,6 +139,10 @@ static const CGFloat kAccuracyDotMinimumScaleFactor = 1.5; // Minimum size, unde
 }
 
 - (void)_animateOuterBlueDot {
+  if (!self.isAnimating) {
+    return;
+  }
+  
   MGGPulsingBlueDot *__weak weakSelf = self;
   [UIView animateWithDuration:1.8 delay:1.2 options:UIViewAnimationOptionCurveEaseOut animations:^{
     CGFloat scale = kOuterBlueDotMaxScaleFactor;

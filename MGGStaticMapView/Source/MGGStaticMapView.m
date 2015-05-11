@@ -65,6 +65,12 @@
   [self _takeSnapshotIfNeeded];
 }
 
+- (void)willMoveToWindow:(UIWindow *)newWindow {
+  [super willMoveToWindow:newWindow];
+  // We need to stop the animating when the view gets taken off screen, otherwise CPU will throttle to 100%
+  self.blueDot.animating = (newWindow != nil);
+}
+
 - (void)_takeSnapshotIfNeeded {
   // If none of the settings have changed, we don't need to take another snapshot
   if (CGSizeEqualToSize(self.frame.size, self.snapshotterOptions.size) &&
@@ -137,6 +143,8 @@
     self.blueDot.hidden = YES;
   }
 }
+
+#pragma mark Annotations
 
 - (void)_updateAnnotations {
   for (id<MKAnnotation> annotation in self.annotations) {

@@ -13,5 +13,6 @@
 
 @property (assign, nonatomic, getter=isErrored) BOOL errored;
 @property (assign, nonatomic) CGFloat accuracyCircleRadius;
+@property (assign, nonatomic, getter=isAnimating) BOOL animating;
 
 @end
