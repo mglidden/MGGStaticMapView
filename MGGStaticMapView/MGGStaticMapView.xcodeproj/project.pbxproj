@@ -16,6 +16,8 @@
 		BB92121B1AB4FDDA0089E094 /* MGGStaticMapViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BB9212141AB4FCC90089E094 /* MGGStaticMapViewTests.m */; };
 		BBB514321AFD406300C5E332 /* MGGUserLocation.h in Headers */ = {isa = PBXBuildFile; fileRef = BBB514301AFD406300C5E332 /* MGGUserLocation.h */; };
 		BBB514331AFD406300C5E332 /* MGGUserLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = BBB514311AFD406300C5E332 /* MGGUserLocation.m */; };
+		BBC482041B012002004234A1 /* MGGMapUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = BBC482021B012002004234A1 /* MGGMapUtils.h */; };
+		BBC482051B012002004234A1 /* MGGMapUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = BBC482031B012002004234A1 /* MGGMapUtils.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +43,8 @@
 		BB9212191AB4FD7D0089E094 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BBB514301AFD406300C5E332 /* MGGUserLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGGUserLocation.h; sourceTree = "<group>"; };
 		BBB514311AFD406300C5E332 /* MGGUserLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGGUserLocation.m; sourceTree = "<group>"; };
+		BBC482021B012002004234A1 /* MGGMapUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGGMapUtils.h; sourceTree = "<group>"; };
+		BBC482031B012002004234A1 /* MGGMapUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGGMapUtils.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +95,8 @@
 				BB92120C1AB4FCBB0089E094 /* MGGStaticMapView.h */,
 				BBB514301AFD406300C5E332 /* MGGUserLocation.h */,
 				BBB514311AFD406300C5E332 /* MGGUserLocation.m */,
+				BBC482021B012002004234A1 /* MGGMapUtils.h */,
+				BBC482031B012002004234A1 /* MGGMapUtils.m */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -123,6 +129,7 @@
 				BB92120E1AB4FCBB0089E094 /* MGGMapView.h in Headers */,
 				BBB514321AFD406300C5E332 /* MGGUserLocation.h in Headers */,
 				BB9212101AB4FCBB0089E094 /* MGGPulsingBlueDot.h in Headers */,
+				BBC482041B012002004234A1 /* MGGMapUtils.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -224,6 +231,7 @@
 			files = (
 				BB9212111AB4FCBB0089E094 /* MGGPulsingBlueDot.m in Sources */,
 				BBB514331AFD406300C5E332 /* MGGUserLocation.m in Sources */,
+				BBC482051B012002004234A1 /* MGGMapUtils.m in Sources */,
 				BB92120F1AB4FCBB0089E094 /* MGGMapView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

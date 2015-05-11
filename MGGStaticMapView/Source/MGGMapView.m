@@ -10,10 +10,7 @@
 
 #import "MGGPulsingBlueDot.h"
 #import "MGGUserLocation.h"
-
-BOOL equalRegions(MKCoordinateRegion regionOne, MKCoordinateRegion regionTwo) {
-  return regionOne.span.latitudeDelta == regionTwo.span.latitudeDelta && regionOne.span.longitudeDelta == regionTwo.span.longitudeDelta && regionOne.center.latitude == regionTwo.center.latitude && regionOne.center.longitude == regionTwo.center.longitude;
-}
+#import "MGGMapUtils.h"
 
 @interface MGGMapView () <CLLocationManagerDelegate>
 @property (strong, nonatomic) MKMapSnapshotter *snapshotter;
@@ -72,7 +69,7 @@ BOOL equalRegions(MKCoordinateRegion regionOne, MKCoordinateRegion regionTwo) {
   // If none of the settings have changed, we don't need to take another snapshot
   if (CGSizeEqualToSize(self.frame.size, self.snapshotterOptions.size) &&
       self.snapshotterOptions != nil &&
-      equalRegions(self.snapshotterOptions.region, self.region) &&
+      [MGGMapUtils regionOne:self.snapshotterOptions.region isNearRegionTwo:self.region] &&
       self.region.span.longitudeDelta > 0 &&
       self.region.span.latitudeDelta > 0 &&
       self.snapshotterOptions.showsPointsOfInterest == self.showsPointsOfInterest &&
@@ -164,7 +161,7 @@ BOOL equalRegions(MKCoordinateRegion regionOne, MKCoordinateRegion regionTwo) {
 #pragma mark Public Properties
 
 - (void)setRegion:(MKCoordinateRegion)region {
-  if (!equalRegions(region, _region)) {
+  if (![MGGMapUtils regionOne:region isNearRegionTwo:_region]) {
     _region = region;
     [self _takeSnapshotIfNeeded];
   }
