@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'MGGStaticMapView'
-  s.version      = '1.0.2'
+  s.version      = '1.0.3'
   s.license      = 'Apache V2'
   s.summary      = 'Drop-in replacement for MKMapView that uses a snapshotter to reduce memory usage.'
   s.homepage     = 'https://github.com/mglidden/MGGStaticMapView'

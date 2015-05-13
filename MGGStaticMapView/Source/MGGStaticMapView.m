@@ -53,6 +53,10 @@
   return self;
 }
 
+- (void)dealloc {
+  _locationManager.delegate = nil;
+}
+
 - (void)_installConstraints {
   NSDictionary *views = NSDictionaryOfVariableBindings(_mapImageView);
   [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_mapImageView]|" options:0 metrics:nil views:views]];
