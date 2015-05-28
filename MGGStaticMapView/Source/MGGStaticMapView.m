@@ -96,7 +96,6 @@
     return;
   }
   
-  [self.snapshotter cancel];
   self.snapshot = nil;
   self.mapImageView.image = nil;
   self.mapImageView.alpha = 0.0;
@@ -109,11 +108,19 @@
   self.snapshotterOptions.showsPointsOfInterest = self.showsPointsOfInterest;
   self.snapshotterOptions.showsBuildings = self.showsBuildings;
   
-  self.snapshotter = [[MKMapSnapshotter alloc] initWithOptions:self.snapshotterOptions];
+  MKMapSnapshotter *snapshotter = [[MKMapSnapshotter alloc] initWithOptions:self.snapshotterOptions];
+  self.snapshotter = snapshotter;
   MGGStaticMapView *__weak weakSelf = self;
   [self.snapshotter startWithQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0) completionHandler:^(MKMapSnapshot *snapshot, NSError *error) {
     dispatch_async(dispatch_get_main_queue(), ^{
       MGGStaticMapView *strongSelf = weakSelf;
+      
+      // MKSnapshotter doesn't like it when you call cancel, so we have to check that self.snapshotter hasn't changed by the time the image comes back.
+      // http://www.openradar.appspot.com/17363235
+      if (strongSelf.snapshotter != snapshotter) {
+        return;
+      }
+      
       strongSelf.snapshot = snapshot;
       strongSelf.mapImageView.image = snapshot.image;
       [UIView animateWithDuration:0.2 animations:^{
